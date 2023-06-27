@@ -39,7 +39,14 @@ public abstract class Book extends Publication implements Cloneable, Serializabl
             throw new IllegalArgumentException("Genre cannot be null or empty.");
         }
     }
-
+    @Override
+    public Book clone() {
+        try {
+            return (Book) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -50,12 +57,4 @@ public abstract class Book extends Publication implements Cloneable, Serializabl
         return sb.toString();
     }
 
-    @Override
-    public Book clone() {
-        try {
-            return (Book) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
-    }
 }

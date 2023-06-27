@@ -15,4 +15,20 @@ public class DataWriter<T> {
             e.printStackTrace();
         }
     }
+//    public void write(T[] data, String fileName) {
+//        try (ObjectOutputStream outputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)))) {
+//            outputStream.writeObject(data);
+//            outputStream.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+    public void write(T data, String fileName) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(fileName)))) {
+            outputStream.writeObject(data);
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

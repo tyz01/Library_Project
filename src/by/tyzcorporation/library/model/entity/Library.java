@@ -4,9 +4,10 @@ import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationExcept
 import by.tyzcorporation.library.model.repository.PublicationRepository;
 import by.tyzcorporation.library.service.LibraryStatistics;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Library implements Iterable<Publication> {
+public abstract class Library implements Iterable<Publication>, Serializable {
     private final PublicationRepository publicationRepository;
 
     public Library() {

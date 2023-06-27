@@ -1,10 +1,12 @@
 package by.tyzcorporation.library.model.repository;
 
-import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
-import by.tyzcorporation.library.model.entity.Publication;
 import by.tyzcorporation.library.model.comporator.PublicationComparator;
+import by.tyzcorporation.library.model.entity.Publication;
 import by.tyzcorporation.library.model.entity.type.SortDirectionType;
 import by.tyzcorporation.library.model.entity.type.SortFieldType;
+import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
+import by.tyzcorporation.library.service.utility.file.DataReader;
+import by.tyzcorporation.library.service.utility.file.DataWriter;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -12,6 +14,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class PublicationRepository implements Iterable<Publication> {
+    private static final String PATH_FILE = "library.txt";
+    private DataReader<Publication> dataReader = new DataReader<>();
+    public DataWriter<Publication> dataWriter = new DataWriter<>();
     private Publication[] publications;
     private int size;
 
@@ -25,6 +30,7 @@ public class PublicationRepository implements Iterable<Publication> {
             publications = Arrays.copyOf(publications, size * 2);
         }
         publications[size] = publication;
+        dataWriter.write(publications, PATH_FILE);
         size++;
     }
 
@@ -77,6 +83,16 @@ public class PublicationRepository implements Iterable<Publication> {
     @Override
     public Iterator<Publication> iterator() {
         return new PublicationIterator();
+    }
+
+    @Override
+    public String toString() {
+        return "PublicationRepository{" +
+                "dataReader=" + dataReader +
+                ", dataWriter=" + dataWriter +
+                ", publications=" + Arrays.toString(publications) +
+                ", size=" + size +
+                '}';
     }
 
     private class PublicationIterator implements Iterator<Publication> {

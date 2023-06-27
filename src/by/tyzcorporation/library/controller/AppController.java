@@ -1,6 +1,7 @@
 package by.tyzcorporation.library.controller;
 
 import by.tyzcorporation.library.model.entity.*;
+import by.tyzcorporation.library.model.repository.PublicationRepository;
 import by.tyzcorporation.library.service.utility.file.DataReader;
 import by.tyzcorporation.library.service.utility.file.DataWriter;
 import by.tyzcorporation.library.service.utility.search.DataSearcher;
@@ -11,6 +12,17 @@ import java.util.List;
 
 public class AppController {
     public static void startApplication() {
+        PublicationRepository publications = new PublicationRepository();
+        publications.addPublication(new ConcreteBook("t2", 2, "tyz2", "genre2"));
+        publications.addPublication(new ConcreteMagazine("name", 12, "comix", "fun"));
+        publications.addPublication(new ConcreteAlbum("name", 12));
+
+        DataReader<Publication> dataReader = new DataReader<>();
+        List<Publication> publications1 = dataReader.read("library.txt");
+        for (Publication pub: publications1) {
+            System.out.println(pub);
+        }
+
         Album album = new ConcreteAlbum("tyz", 35);
         Album albumStickerColoring = new AlbumDecorator(new AlbumSticker(new AlbumColoring(album)));
 
@@ -21,25 +33,25 @@ public class AppController {
 
         System.out.println("----------------");
 
-        List<Book> books = new ArrayList<>();
-        books.add(new ConcreteBook("t", 1, "tyz", "genre"));
-        books.add(new ConcreteBook("t2", 2, "tyz2", "genre2"));
-        DataSearcher<Book> bookSearcher = new DataSearcher<>(books);
-
-        SearchStrategy<Book> searchStrategy = (book) -> book.getAuthor().equals("tyz2");
-        List<Book> result = bookSearcher.search(searchStrategy);
-
-        for (Book book : result) {
-            System.out.println(book.getTitle());
-        }
-        DataWriter<Book> dataWriter = new DataWriter<>();
-        dataWriter.write(result, "library.txt");
-
-        DataReader<Book> dataReader = new DataReader<>();
-        List<Book> books1 = dataReader.read("library.txt");
-        for (Book book: books1) {
-            System.out.println(book);
-        }
+//        List<Book> books = new ArrayList<>();
+//        books.add(new ConcreteBook("t", 1, "tyz", "genre"));
+//        books.add(new ConcreteBook("t2", 2, "tyz2", "genre2"));
+//        DataSearcher<Book> bookSearcher = new DataSearcher<>(books);
+//
+//        SearchStrategy<Book> searchStrategy = (book) -> book.getAuthor().equals("tyz2");
+//        List<Book> result = bookSearcher.search(searchStrategy);
+//
+//        for (Book book : result) {
+//            System.out.println(book.getTitle());
+//        }
+//        DataWriter<Book> dataWriter = new DataWriter<>();
+//        dataWriter.write(result, "library.txt");
+//
+//        DataReader<Book> dataReader2 = new DataReader<>();
+//        List<Book> books1 = dataReader2.read("library.txt");
+//        for (Book book : books1) {
+//            System.out.println(book);
+//        }
     }
 
 }

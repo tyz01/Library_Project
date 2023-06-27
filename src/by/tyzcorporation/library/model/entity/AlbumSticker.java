@@ -1,8 +1,5 @@
 package by.tyzcorporation.library.model.entity;
 
-import by.tyzcorporation.library.model.entity.Album;
-import by.tyzcorporation.library.model.entity.AlbumDecorator;
-
 public class AlbumSticker extends AlbumDecorator {
     public AlbumSticker(Album album) {
         super(album);
@@ -20,5 +17,12 @@ public class AlbumSticker extends AlbumDecorator {
     @Override
     public int getPageCount() {
         return album.getPageCount();
+    }
+
+    @Override
+    public String toString() {
+        return "AlbumSticker{" +
+                "album=" + album +
+                '}';
     }
 }

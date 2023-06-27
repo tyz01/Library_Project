@@ -2,9 +2,10 @@ package by.tyzcorporation.library.model.entity;
 
 import by.tyzcorporation.library.model.exception.logical.InvalidPageCountException;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Publication implements Comparable<Publication> {
+public abstract class Publication implements Comparable<Publication>, Serializable {
     private String title;
     private int pageCount;
 

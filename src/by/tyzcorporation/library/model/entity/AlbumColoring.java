@@ -20,4 +20,11 @@ public class AlbumColoring extends AlbumDecorator {
     public int getPageCount() {
         return album.getPageCount();
     }
+
+    @Override
+    public String toString() {
+        return "AlbumColoring{" +
+                "album=" + album +
+                '}';
+    }
 }

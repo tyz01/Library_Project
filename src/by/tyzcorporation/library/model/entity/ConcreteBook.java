@@ -1,6 +1,8 @@
 package by.tyzcorporation.library.model.entity;
 
-public class ConcreteBook extends Book {
+import java.io.Serializable;
+
+public class ConcreteBook extends Book implements Serializable {
     public ConcreteBook(Book other) {
         super(other);
     }
@@ -8,4 +10,5 @@ public class ConcreteBook extends Book {
     public ConcreteBook(String title, int pageCount, String author, String genre) {
         super(title, pageCount, author, genre);
     }
+
 }

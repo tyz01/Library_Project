@@ -1,7 +1,5 @@
 package by.tyzcorporation.library.model.entity;
 
-import by.tyzcorporation.library.model.entity.Album;
-
 public class AlbumDecorator implements Album {
     protected Album album;
 
@@ -32,5 +30,12 @@ public class AlbumDecorator implements Album {
     @Override
     public void setPage(int page) {
 
+    }
+
+    @Override
+    public String toString() {
+        return "AlbumDecorator{" +
+                "album=" + album +
+                '}';
     }
 }

@@ -14,4 +14,5 @@ public class ConcreteAlbum extends Publication implements Album {
     public void setPage(int page) {
 
     }
+
 }

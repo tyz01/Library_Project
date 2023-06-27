@@ -1,8 +1,9 @@
 package by.tyzcorporation.library.model.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Magazine extends Publication {
+public abstract class Magazine extends Publication implements Serializable {
     private String category;
     private String genre;
 
