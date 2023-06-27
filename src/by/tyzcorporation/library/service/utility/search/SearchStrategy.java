@@ -1,4 +1,4 @@
-package by.tyzcorporation.library.service;
+package by.tyzcorporation.library.service.utility.search;
 
 @FunctionalInterface
 public interface SearchStrategy<T> {

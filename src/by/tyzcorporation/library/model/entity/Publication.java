@@ -1,8 +1,10 @@
-package by.tyzcorporation.library.model;
+package by.tyzcorporation.library.model.entity;
+
+import by.tyzcorporation.library.model.exception.logical.InvalidPageCountException;
 
 import java.util.Objects;
 
-public class Publication implements Comparable<Publication> {
+public abstract class Publication implements Comparable<Publication> {
     private String title;
     private int pageCount;
 
@@ -14,6 +16,14 @@ public class Publication implements Comparable<Publication> {
     public Publication(String title, int pageCount) {
         this.title = title;
         this.pageCount = pageCount;
+    }
+
+    public void setPageCount(int pageCount) throws InvalidPageCountException {
+        if (pageCount > 0) {
+            this.pageCount = pageCount;
+        } else {
+            throw new InvalidPageCountException("Page count must be greater than 0.");
+        }
     }
 
     public void setTitle(String title) {
@@ -56,10 +66,12 @@ public class Publication implements Comparable<Publication> {
 
     @Override
     public String toString() {
-        return "Publication{" +
-                "title='" + title + '\'' +
-                ", pageCount=" + pageCount +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Publication{")
+                .append("title='").append(title).append('\'')
+                .append(", pageCount=").append(pageCount)
+                .append('}');
+        return sb.toString();
     }
 }
 

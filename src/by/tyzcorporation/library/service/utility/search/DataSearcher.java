@@ -1,10 +1,10 @@
-package by.tyzcorporation.library.service;
+package by.tyzcorporation.library.service.utility.search;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataSearcher<T> {
-    private List<T> data;
+    private final List<T> data;
 
     public DataSearcher(List<T> data) {
         this.data = data;
@@ -20,3 +20,4 @@ public class DataSearcher<T> {
         return result;
     }
 }
+

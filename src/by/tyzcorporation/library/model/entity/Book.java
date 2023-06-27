@@ -1,6 +1,8 @@
-package by.tyzcorporation.library.model;
+package by.tyzcorporation.library.model.entity;
 
-public class Book extends Publication implements Cloneable {
+import java.io.Serializable;
+
+public abstract class Book extends Publication implements Cloneable, Serializable {
     private String author;
     private String genre;
 
@@ -34,16 +36,18 @@ public class Book extends Publication implements Cloneable {
         if (genre != null && !genre.isEmpty()) {
             this.genre = genre;
         } else {
-            throw new IllegalArgumentException("Author cannot be null or empty.");
+            throw new IllegalArgumentException("Genre cannot be null or empty.");
         }
     }
 
     @Override
     public String toString() {
-        return "Book{" +
-                "author='" + author + '\'' +
-                ", genre='" + genre + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Book{")
+                .append("author='").append(author).append('\'')
+                .append(", genre='").append(genre).append('\'')
+                .append('}');
+        return sb.toString();
     }
 
     @Override

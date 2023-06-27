@@ -1,12 +1,13 @@
-package by.tyzcorporation.library.model;
+package by.tyzcorporation.library.model.entity;
 
-import by.tyzcorporation.library.repository.PublicationRepository;
+import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
+import by.tyzcorporation.library.model.repository.PublicationRepository;
 import by.tyzcorporation.library.service.LibraryStatistics;
 
 import java.util.*;
 
-public class Library implements Iterable<Publication> {
-    private PublicationRepository publicationRepository;
+public abstract class Library implements Iterable<Publication> {
+    private final PublicationRepository publicationRepository;
 
     public Library() {
         publicationRepository = new PublicationRepository();
@@ -21,7 +22,7 @@ public class Library implements Iterable<Publication> {
         publicationRepository.removePublication(publication);
     }
 
-    public Publication getPublication(int index) {
+    public Publication getPublication(int index) throws NoSuchPublicationException {
         return publicationRepository.getPublication(index);
     }
 

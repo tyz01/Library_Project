@@ -1,8 +1,7 @@
-package by.tyzcorporation.library.service.filter.impl;
+package by.tyzcorporation.library.service.utility.filter;
 
-import by.tyzcorporation.library.model.Magazine;
-import by.tyzcorporation.library.model.Publication;
-import by.tyzcorporation.library.service.filter.GenreFilter;
+import by.tyzcorporation.library.model.entity.Magazine;
+import by.tyzcorporation.library.model.entity.Publication;
 
 public class MagazineGenreFilter implements GenreFilter {
     private final String genre;

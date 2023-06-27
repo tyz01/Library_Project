@@ -1,7 +1,7 @@
 package by.tyzcorporation.library.service;
 
-import by.tyzcorporation.library.exception.NoSuchPublicationException;
-import by.tyzcorporation.library.model.Publication;
+import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
+import by.tyzcorporation.library.model.entity.Publication;
 
 import java.util.Iterator;
 import java.util.List;
