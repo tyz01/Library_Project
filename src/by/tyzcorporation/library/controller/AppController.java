@@ -1,159 +1,156 @@
 package by.tyzcorporation.library.controller;
 
 import by.tyzcorporation.library.model.entity.Library;
-import by.tyzcorporation.library.model.entity.Publication;
-import by.tyzcorporation.library.model.repository.ContainerPublication;
-import by.tyzcorporation.library.service.utility.PublicationFactoryUI;
 import by.tyzcorporation.library.service.utility.file.DataReader;
-import by.tyzcorporation.library.service.utility.file.DataWriter;
 
 import java.util.Scanner;
 
-import static by.tyzcorporation.library.service.utility.PublicationFactoryUI.getUserInputType;
-
 public class AppController {
-    private final DataWriter<Library> dataWriter = new DataWriter<>();
-    private final Library library;
-
     private int operation;
+    private final PublicationController publicationController;
 
     public AppController() {
-       // library = ContainerPublication.repositoryLibrary();
+
         DataReader<Library> publicationRepositoryDataReader = new DataReader<>();
-        library = publicationRepositoryDataReader.read("library.txt");
+        Library library = publicationRepositoryDataReader.read("library.txt");
+        publicationController = new PublicationController(library);
     }
 
     public void start() {
-        //saveRepository();
-        saveRepository();
-        System.out.println("enter library 0 - true" + "\n" +
-                "exit library 1 - false"
-        );
+        System.out.println("Enter 0 to continue or 1 to exit the library:");
         operation = new Scanner(System.in).nextInt();
         while (isExit(operation)) {
             System.out.println("""
-                    choose operation:\s
-                    1: show information library
-                    2: get Publication
-                    3: return Publication
-                    4: show all publication
-                    5: remove publication
-                    6: add Publication
-                    7: exit""");
+                    Choose an operation:
+                    1: Show library information
+                    2: Get a publication
+                    3: Return a publication
+                    4: Show all publications
+                    5: Remove a publication
+                    6: Add a publication
+                    7: find Publication by title
+                    8: find Publication by type
+                    0: Exit""");
 
             switchController(new Scanner(System.in).nextInt());
         }
     }
 
     public void switchController(int numberOperation) {
-        switch (numberOperation) {
-            case 2, 3, 5, 6 -> System.out.println("BOOK, ALBUM or MAGAZINE");
-            case 7 -> System.out.println("""
-                    are you sure?
-                    0 - true
-                    1 - false"""
-            );
+        if (numberOperation < 0 || numberOperation > 9) {
+            System.out.println("No such operation");
         }
         switch (numberOperation) {
-            // case 1 -> System.out.println(showListTitleLibrary());
-            case 2 -> getPublication(getUserInputType());
-            case 3 -> returnPublication(getUserInputType());
-            case 4 -> showAllPublication();
-            case 5 -> removePublication(getUserInputType());
-            case 6 -> addPublication(getUserInputType());
-            case 7 -> {
+            case 2, 3, 5, 6 -> System.out.println("BOOK, ALBUM, or MAGAZINE");
+            case 0 -> {
+                System.out.println("""
+                        Are you sure you want to exit?
+                        0 - Yes
+                        1 - No"""
+                );
                 operation = new Scanner(System.in).nextInt();
                 operation = isExit(operation) ? 1 : 0;
             }
         }
-    }
-    public void showAllPublication() {
-        DataReader<Library> libraryDataReader = new DataReader<>();
-        Library repository = libraryDataReader.read("library.txt");
-        if (repository != null) {
-            for (Publication publication : repository) {
-                System.out.println(publication);
+        switch (numberOperation) {
+            case 2 -> {
+                try {
+                    String type = getUserInputType();
+                    if (type != null) {
+                        publicationController.getPublication(type);
+                    } else {
+                        System.out.println("Invalid publication type");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred while getting the publication: " + e.getMessage());
+                }
+            }
+            case 3 -> {
+                try {
+                    String type = getUserInputType();
+                    if (type != null) {
+                        publicationController.returnPublication(type);
+                    } else {
+                        System.out.println("Invalid publication type");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred while returning the publication: " + e.getMessage());
+                }
+            }
+            case 4 -> {
+                try {
+                    publicationController.showAllPublication();
+                } catch (Exception e) {
+                    System.out.println("An error occurred while showing all publications: " + e.getMessage());
+                }
+            }
+            case 5 -> {
+                try {
+                    String type = getUserInputType();
+                    if (type != null) {
+                        publicationController.removePublication(type);
+                    } else {
+                        System.out.println("Invalid publication type");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred while removing the publication: " + e.getMessage());
+                }
+            }
+            case 6 -> {
+                try {
+                    String type = getUserInputType();
+                    if (type != null) {
+                        publicationController.addPublication(type);
+                    } else {
+                        System.out.println("Invalid publication type");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error occurred while adding the publication: " + e.getMessage());
+                }
+            }
+            case 7 -> {
+                try {
+                    String type = getUserInputType();
+                    if (type != null) {
+                        System.out.println(publicationController.findPublicationByTitle(type));
+                    } else {
+                        System.out.println("Invalid publication type");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error publication: " + e.getMessage());
+                }
+            }
+            case 8 -> {
+                try {
+                    String type = getUserInputType();
+                    System.out.println("book, album, or magazine");
+                    if (type != null) {
+                        System.out.println(publicationController.findPublicationByType(type));
+                    } else {
+                        System.out.println("Invalid publication type");
+                    }
+                } catch (Exception e) {
+                    System.out.println("An error publication: " + e.getMessage());
+                }
             }
         }
-    }
-    public void returnPublication(String type) {
-        library.returnPublication(PublicationFactoryUI.createPublication(type));
-        saveRepository();
-    }
-
-    private void removePublication(String type) {
-        library.removePublication(PublicationFactoryUI.createPublication(type));
-        saveRepository();
-    }
-
-    private void getPublication(String type) {
-        library.getReadPublication(PublicationFactoryUI.createPublication(type));
-        saveRepository();
-    }
-
-    private void addPublication(String type) {
-        library.getReadPublication(PublicationFactoryUI.createPublication(type));
-        saveRepository();
     }
 
     public boolean isExit(int operation) {
         return operation != 1;
     }
 
-    public void saveRepository() {
-        dataWriter.write(library, "library.txt");
+    public String getUserInputType() {
+        System.out.println("Enter publication type (BOOK, ALBUM, or MAGAZINE):");
+        String type = new Scanner(System.in).nextLine();
+        if (isValidPublicationType(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isValidPublicationType(String type) {
+        return type.equals("BOOK") || type.equals("ALBUM") || type.equals("MAGAZINE");
     }
 }
-
-//        List<Magazine> magazines = publications1.stream()
-//                .filter(p -> p instanceof Magazine)
-//                .map(p -> (Magazine) p).toList();
-//        for (Magazine magazine : magazines) {
-//            System.out.println(magazine);
-//        }
-//        Album album = new ConcreteAlbum("tyz", 35);
-//        Album albumStickerColoring = new AlbumDecorator(new AlbumSticker(new AlbumColoring(album)));
-//
-//
-//        albumStickerColoring.draw();
-//        System.out.println(albumStickerColoring.getPageCount());
-//        System.out.println(albumStickerColoring.getTitle());
-//
-//        System.out.println("----------------");
-//
-//        List<Book> books = new ArrayList<>();
-//        books.add(new ConcreteBook("t", 1, "tyz", "genre"));
-//        books.add(new ConcreteBook("t2", 2, "tyz2", "genre2"));
-//
-//        DataSearcher<Book> bookSearcher = new DataSearcher<>(books);
-//
-//        SearchStrategy<Book> searchStrategy = (book) -> book.getAuthor().equals("tyz2");
-//
-//        List<Book> result = bookSearcher.search(searchStrategy);
-//
-//        for (Book book : result) {
-//            System.out.println(book.getTitle());
-//        }
-//        DataWriter<Book> dataWriter = new DataWriter<>();
-//        dataWriter.write(result, "library.txt");
-//
-//        DataReader<Book> dataReader2 = new DataReader<>();
-//        List<Book> books1 = dataReader2.readArray("library.txt");
-//        for (Book book : books1) {
-//            System.out.println(book);
-//        }
-//    }
-//
-//        DataReader<Book> dataReader2 = new DataReader<>();
-//        List<Book> books1 = dataReader2.readArray("library.txt");
-//        for (Book book : books1) {
-//            System.out.println(book);
-//        }
-// System.out.println(LibraryStatistics.getBookCount());
-//  System.out.println(LibraryStatistics.getMagazineCount());
-
-//        DataReader<Publication> dataReader = new DataReader<>();
-//        List<Publication> publications1 = dataReader.readList("library.txt");
-//        for (Publication pub : publications1) {
-//            System.out.println(pub);
-// }

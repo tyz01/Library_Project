@@ -1,7 +1,5 @@
 package by.tyzcorporation.library.service.utility.file;
 
-import by.tyzcorporation.library.model.entity.Publication;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;

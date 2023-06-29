@@ -27,7 +27,6 @@ public abstract class Publication implements Comparable<Publication>, Serializab
     public Publication(String title, int pageCount) {
         this.title = title;
         this.pageCount = pageCount;
-
     }
 
     public int getCountBorrowPublication() {

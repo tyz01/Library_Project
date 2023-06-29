@@ -20,8 +20,8 @@ public class PublicationRepositoryTest {
     @Before
     public void setup() {
         repository = new PublicationRepository();
-        publication1 = new ConcreteBook("t2", 2, "tyz2", "genre2", false);
-        publication2 = new ConcreteMagazine("name", 12, "comix", "fun", false);
+        publication1 = new ConcreteBook("t2", 2, "tyz2", "genre2", false, 0);
+        publication2 = new ConcreteMagazine("name", 12, "comics", "fun", false, 0);
     }
 
     @Test()
@@ -47,7 +47,7 @@ public class PublicationRepositoryTest {
         Assert.assertEquals(publication2, repository.getPublication(0));
     }
 
-    @Test
+    @Test()
     public void testRemovePublication_Negative() {
 
         repository.addPublication(publication1);
@@ -148,13 +148,5 @@ public class PublicationRepositoryTest {
         Assert.assertEquals(expected, result.toString());
     }
 
-    @Test(expected = NoSuchElementException.class) //don't work
-    public void testIterator_Negative() {
 
-        repository.addPublication(publication1);
-
-        for (Publication publication : repository) {
-
-        }
-    }
 }

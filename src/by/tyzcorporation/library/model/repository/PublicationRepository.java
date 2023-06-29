@@ -12,12 +12,12 @@ import by.tyzcorporation.library.model.exception.technical.PublicationRepository
 import by.tyzcorporation.library.service.LibraryStatistics;
 import by.tyzcorporation.library.service.utility.file.DataReader;
 import by.tyzcorporation.library.service.utility.file.DataWriter;
+import by.tyzcorporation.library.service.utility.search.DataSearcher;
+import by.tyzcorporation.library.service.utility.search.SearchStrategy;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class PublicationRepository implements Iterable<Publication>, Serializable {
     private static final String PATH_FILE = "library.txt";
@@ -25,7 +25,10 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
     private final DataWriter<Publication> dataWriter = new DataWriter<>();
     private Publication[] publications;
     private int size;
-
+    public PublicationRepository(Publication[] publications) {
+        this.publications = publications;
+        this.size = publications.length;
+    }
     public PublicationRepository() {
         publications = new Publication[10];
         size = 0;
@@ -56,6 +59,7 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
             publications[size - 1] = null;
             size--;
         }
+        throw new PublicationRepositoryException("no such publication");
     }
 
     private int findPublicationIndex(Publication publication) {
@@ -67,7 +71,32 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
         throw new PublicationRepositoryException("no such publication");
     }
 
+    public Publication findPublicationByTitle(String title) {
+        Publication[] publications1 = readFromFile();
+        List<Publication> publications2 = Arrays.stream(publications1).toList();
+        DataSearcher<Publication> bookSearcher = new DataSearcher<>(publications2);
+
+        SearchStrategy<Publication> searchStrategy = (publication) -> publication.getTitle().equals("title");
+
+        List<Publication> result = bookSearcher.search(searchStrategy);
+
+        for (Publication book : result) {
+            return book;
+        }
+        return null;
+    }
+    public List<Publication> findPublicationByType(String type) {
+        Publication[] publications = readFromFile();
+        List<Publication> filteredPublications = Arrays.stream(publications)
+                .filter(p -> p.getClass().getSimpleName().equals(type))
+                .collect(Collectors.toList());
+        return filteredPublications;
+    }
+
     public void getReadPublication(Publication publication) {
+        if(publication.isBorrow()){
+            return;
+        }
         int index = findPublicationIndex(publication);
         if (index >= 0 && index < size) {
             publications[index].setBorrow(true);
@@ -119,61 +148,6 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
         return publicationRepositoryDataReader.read("library.txt");
     }
 
-
-//    public List<String> getListTitleLibrary() {
-//        List<String> title = new ArrayList<>();
-//        for (Library library : publications) {
-//            title.add(library.getTitle());
-//        }
-//        return title;
-//    }
-
-//    public Library chooseLibrary(String name) {
-//        for (ConcreteLibrary library : publications) {
-//            if ()
-//        }
-//    }
-
-    //    public Publication[] findPublicationsByParameters(int minPageCount, int maxPageCount) throws NoSuchPublicationException {
-//        Publication[] foundPublications = new Publication[size];
-//        int foundCount = 0;
-//        for (int i = 0; i < size; i++) {
-//            Publication publication = getPublication(i);
-//            int pageCount = publication.getPageCount();
-//            if (pageCount >= minPageCount && pageCount <= maxPageCount) {
-//                foundPublications[foundCount] = publication;
-//                foundCount++;
-//            }
-//        }
-//        return Arrays.copyOf(foundPublications, foundCount);
-//    }
-//    public Publication findMostPopularPublication() {
-//        Publication mostPopularPublication = null;
-//        int maxBorrowCount = 0;
-//        for (Publication publication : publications) {
-//            int borrowCount = LibraryStatistics.getPublicationBorrowCount(publication);
-//            if (borrowCount > maxBorrowCount) {
-//                maxBorrowCount = borrowCount;
-//                mostPopularPublication = publication;
-//            }
-//        }
-//        return mostPopularPublication;
-//    }
-//    public Publication findLeastPopularPublication() {
-//        Publication leastPopularPublication = null;
-//        int minBorrowCount = Integer.MAX_VALUE;
-//        for (Publication publication : publications) {
-//            int borrowCount = LibraryStatistics.getPublicationBorrowCount(publication);
-//            if (borrowCount < minBorrowCount) {
-//                minBorrowCount = borrowCount;
-//                leastPopularPublication = publication;
-//            }
-//        }
-//        return leastPopularPublication;
-//    }
-//    public int countBooksOnHands() {
-//        return LibraryStatistics.getBookCount();
-//    }
     @Override
     public Iterator<Publication> iterator() {
         return new PublicationIterator();
@@ -213,4 +187,3 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
         }
     }
 }
-

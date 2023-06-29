@@ -19,8 +19,7 @@ public class PublicationFactoryUI {
                 author = scanner.nextLine();
                 System.out.print("Enter book genre: ");
                 genre = scanner.nextLine();
-                System.out.print("Enter book page count: ");
-                pageCount = scanner.nextInt();
+                pageCount = getUserInputInt("Enter book page count: ");
                 return new ConcreteBook(title, pageCount, author, genre, false, 0);
             }
             case "MAGAZINE" -> {
@@ -30,21 +29,34 @@ public class PublicationFactoryUI {
                 String category = scanner.nextLine();
                 System.out.print("Enter magazine genre: ");
                 genre = scanner.nextLine();
-                System.out.print("Enter magazine page count: ");
-                pageCount = scanner.nextInt();
+                pageCount = getUserInputInt("Enter magazine page count: ");
                 return new ConcreteMagazine(title, pageCount, category, genre, false, 0);
             }
             case "ALBUM" -> {
                 System.out.print("Enter album title: ");
                 title = scanner.nextLine();
-                System.out.print("Enter album page count: ");
-                pageCount = scanner.nextInt();
+                pageCount = getUserInputInt("Enter album page count: ");
                 return new ConcreteAlbum(title, pageCount, false, 0);
             }
             default -> throw new IllegalArgumentException("Invalid publication type: " + type);
         }
     }
-    public static String getUserInputType() {
-        return new Scanner(System.in).nextLine();
+
+    public static int getUserInputInt(String message) {
+        Scanner scanner = new Scanner(System.in);
+        int value;
+        while (true) {
+            try {
+                System.out.print(message);
+                value = Integer.parseInt(scanner.nextLine());
+                if (value > 0) {
+                    return value;
+                } else {
+                    System.out.println("Invalid input. Please enter a positive integer.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a positive integer.");
+            }
+        }
     }
 }
