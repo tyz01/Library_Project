@@ -1,6 +1,8 @@
 package by.tyzcorporation.library.model.entity;
 
-public class AlbumSticker extends AlbumDecorator {
+import java.io.Serializable;
+
+public class AlbumSticker extends AlbumDecorator implements Serializable {
     public AlbumSticker(Album album) {
         super(album);
     }
@@ -21,8 +23,6 @@ public class AlbumSticker extends AlbumDecorator {
 
     @Override
     public String toString() {
-        return "AlbumSticker{" +
-                "album=" + album +
-                '}';
+        return "AlbumSticker " + album;
     }
 }

@@ -7,8 +7,8 @@ public abstract class Magazine extends Publication implements Serializable {
     private String category;
     private String genre;
 
-    public Magazine(String title, int pageCount, String category, String genre) {
-        super(title, pageCount);
+    public Magazine(String title, int pageCount, String category, String genre, boolean borrow, int countBorrowPublication) {
+        super(title, pageCount, borrow,countBorrowPublication);
         this.category = category;
         this.genre = genre;
     }
@@ -58,10 +58,12 @@ public abstract class Magazine extends Publication implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Magazine{")
-                .append("category='").append(category).append('\'')
-                .append(", genre='").append(genre).append('\'')
-                .append('}');
+        sb.append("Magazine: ")
+                .append("title = ").append(getTitle())
+                .append(", category = ").append(category)
+                .append(", genre = ").append(genre)
+                .append(", borrow = ").append(isBorrow())
+                .append(", count borrow publication = ").append(getCountBorrowPublication());
         return sb.toString();
     }
 }

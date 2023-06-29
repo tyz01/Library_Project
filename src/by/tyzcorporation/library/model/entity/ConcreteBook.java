@@ -7,8 +7,8 @@ public class ConcreteBook extends Book implements Serializable {
         super(other);
     }
 
-    public ConcreteBook(String title, int pageCount, String author, String genre) {
-        super(title, pageCount, author, genre);
+    public ConcreteBook(String title, int pageCount, String author, String genre, boolean borrow, int countBorrowPublication) {
+        super(title, pageCount, author, genre, borrow,countBorrowPublication);
     }
 
 }

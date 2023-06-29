@@ -10,8 +10,8 @@ public abstract class Book extends Publication implements Cloneable, Serializabl
         this.author = other.author;
         this.genre = other.genre;
     }
-    public Book(String title, int pageCount, String author, String genre) {
-        super(title, pageCount);
+    public Book(String title, int pageCount, String author, String genre, boolean borrow, int countBorrowPublication) {
+        super(title, pageCount, borrow, countBorrowPublication);
         this.author = author;
         this.genre = genre;
     }
@@ -27,17 +27,15 @@ public abstract class Book extends Publication implements Cloneable, Serializabl
     public void setAuthor(String author) {
         if (author != null && !author.isEmpty()) {
             this.author = author;
-        } else {
-            throw new IllegalArgumentException("Author cannot be null or empty.");
         }
+        throw new IllegalArgumentException("Author cannot be null or empty.");
     }
 
     public void setGenre(String genre) {
         if (genre != null && !genre.isEmpty()) {
             this.genre = genre;
-        } else {
-            throw new IllegalArgumentException("Genre cannot be null or empty.");
         }
+            throw new IllegalArgumentException("Genre cannot be null or empty.");
     }
     @Override
     public Book clone() {
@@ -50,10 +48,12 @@ public abstract class Book extends Publication implements Cloneable, Serializabl
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Book{")
-                .append("author='").append(author).append('\'')
-                .append(", genre='").append(genre).append('\'')
-                .append('}');
+        sb.append("Book: ")
+                .append("title = ").append(getTitle()).append(", ")
+                .append("author = ").append(author).append(", ")
+                .append("genre = ").append(genre).append(", ")
+                .append("borrow = ").append(isBorrow()).append(", ")
+                .append("count get publication = ").append(getCountBorrowPublication());
         return sb.toString();
     }
 

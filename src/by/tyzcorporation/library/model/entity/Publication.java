@@ -8,31 +8,56 @@ import java.util.Objects;
 public abstract class Publication implements Comparable<Publication>, Serializable {
     private String title;
     private int pageCount;
+    private boolean borrow;
+    private int countBorrowPublication;
 
     public Publication() {
         this.title = "Untitled";
         this.pageCount = 0;
+        this.borrow = false;
+        this.countBorrowPublication = 0;
     }
 
+    public Publication(String title, int pageCount, boolean borrow, int countBorrowPublication) {
+        this.title = title;
+        this.pageCount = pageCount;
+        this.borrow = borrow;
+        this.countBorrowPublication = countBorrowPublication;
+    }
     public Publication(String title, int pageCount) {
         this.title = title;
         this.pageCount = pageCount;
+
+    }
+
+    public int getCountBorrowPublication() {
+        return countBorrowPublication;
+    }
+
+    public void setCountBorrowPublication(int countBorrowPublication) {
+        this.countBorrowPublication = countBorrowPublication;
     }
 
     public void setPageCount(int pageCount) throws InvalidPageCountException {
         if (pageCount > 0) {
             this.pageCount = pageCount;
-        } else {
-            throw new InvalidPageCountException("Page count must be greater than 0.");
         }
+        throw new InvalidPageCountException("Page count must be greater than 0.");
+    }
+
+    public boolean isBorrow() {
+        return borrow;
+    }
+
+    public void setBorrow(boolean borrow) {
+        this.borrow = borrow;
     }
 
     public void setTitle(String title) {
         if (title != null && !title.isEmpty()) {
             this.title = title;
-        } else {
-            throw new IllegalArgumentException("Title cannot be null or empty.");
         }
+        throw new IllegalArgumentException("Title cannot be null or empty.");
     }
 
     public String getTitle() {
@@ -65,14 +90,5 @@ public abstract class Publication implements Comparable<Publication>, Serializab
         return Objects.hash(title, pageCount);
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Publication{")
-                .append("title='").append(title).append('\'')
-                .append(", pageCount=").append(pageCount)
-                .append('}');
-        return sb.toString();
-    }
 }
 

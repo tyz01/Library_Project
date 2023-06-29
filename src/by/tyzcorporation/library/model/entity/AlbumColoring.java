@@ -1,6 +1,8 @@
 package by.tyzcorporation.library.model.entity;
 
-public class AlbumColoring extends AlbumDecorator {
+import java.io.Serializable;
+
+public class AlbumColoring extends AlbumDecorator implements Serializable {
     public AlbumColoring(Album album) {
         super(album);
     }
@@ -23,8 +25,6 @@ public class AlbumColoring extends AlbumDecorator {
 
     @Override
     public String toString() {
-        return "AlbumColoring{" +
-                "album=" + album +
-                '}';
+        return "AlbumColoring " + album ;
     }
 }
