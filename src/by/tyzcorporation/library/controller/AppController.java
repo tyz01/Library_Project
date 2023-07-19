@@ -1,18 +1,24 @@
 package by.tyzcorporation.library.controller;
 
+
 import by.tyzcorporation.library.model.entity.Library;
+import by.tyzcorporation.library.model.repository.ContainerPublication;
 import by.tyzcorporation.library.service.utility.file.DataReader;
+import by.tyzcorporation.library.service.utility.file.DataWriter;
 
 import java.util.Scanner;
 
 public class AppController {
     private int operation;
     private final PublicationController publicationController;
+    private final Library library;
 
     public AppController() {
+        DataWriter<Library> publicationDataWriter = new DataWriter<>();
+        publicationDataWriter.write(ContainerPublication.repositoryLibrary(), "library.txt");
 
         DataReader<Library> publicationRepositoryDataReader = new DataReader<>();
-        Library library = publicationRepositoryDataReader.read("library.txt");
+        library = publicationRepositoryDataReader.read("library.txt");
         publicationController = new PublicationController(library);
     }
 

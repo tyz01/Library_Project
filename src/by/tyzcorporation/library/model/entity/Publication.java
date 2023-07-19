@@ -2,20 +2,47 @@ package by.tyzcorporation.library.model.entity;
 
 import by.tyzcorporation.library.model.exception.logical.InvalidPageCountException;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Publication implements Comparable<Publication>, Serializable {
+public class Publication implements Comparable<Publication>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234573L;
+    private Integer idPublication;
     private String title;
     private int pageCount;
     private boolean borrow;
     private int countBorrowPublication;
+    private int foreignId;
+
+    public Publication(Integer idPublication,
+                       String title,
+                       int pageCount, boolean borrow,
+                       int countBorrowPublication,
+                       int foreignId) {
+        this.idPublication = idPublication;
+        this.title = title;
+        this.pageCount = pageCount;
+        this.borrow = borrow;
+        this.countBorrowPublication = countBorrowPublication;
+        this.foreignId = foreignId;
+    }
 
     public Publication() {
+        this.idPublication = null;
         this.title = "Untitled";
         this.pageCount = 0;
         this.borrow = false;
         this.countBorrowPublication = 0;
+    }
+
+    public Publication(Integer idPublication, String title, int pageCount, boolean borrow, int countBorrowPublication) {
+        this.idPublication = idPublication;
+        this.title = title;
+        this.pageCount = pageCount;
+        this.borrow = borrow;
+        this.countBorrowPublication = countBorrowPublication;
     }
 
     public Publication(String title, int pageCount, boolean borrow, int countBorrowPublication) {
@@ -24,6 +51,7 @@ public abstract class Publication implements Comparable<Publication>, Serializab
         this.borrow = borrow;
         this.countBorrowPublication = countBorrowPublication;
     }
+
     public Publication(String title, int pageCount) {
         this.title = title;
         this.pageCount = pageCount;
@@ -42,6 +70,14 @@ public abstract class Publication implements Comparable<Publication>, Serializab
             this.pageCount = pageCount;
         }
         throw new InvalidPageCountException("Page count must be greater than 0.");
+    }
+
+    public Integer getIdPublication() {
+        return idPublication;
+    }
+
+    public void setIdPublication(Integer idPublication) {
+        this.idPublication = idPublication;
     }
 
     public boolean isBorrow() {
@@ -89,5 +125,16 @@ public abstract class Publication implements Comparable<Publication>, Serializab
         return Objects.hash(title, pageCount);
     }
 
+    @Override
+    public String toString() {
+        return "Publication{" +
+                "idPublication=" + idPublication +
+                ", title='" + title + '\'' +
+                ", pageCount=" + pageCount +
+                ", borrow=" + borrow +
+                ", countBorrowPublication=" + countBorrowPublication +
+                ", publication=" + foreignId +
+                '}';
+    }
 }
 

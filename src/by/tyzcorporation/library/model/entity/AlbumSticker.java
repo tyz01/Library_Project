@@ -1,8 +1,11 @@
 package by.tyzcorporation.library.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class AlbumSticker extends AlbumDecorator implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 12345679L;
     public AlbumSticker(Album album) {
         super(album);
     }

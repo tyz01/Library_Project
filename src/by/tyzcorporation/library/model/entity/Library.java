@@ -3,11 +3,16 @@ package by.tyzcorporation.library.model.entity;
 import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
 import by.tyzcorporation.library.model.repository.PublicationRepository;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Library implements Iterable<Publication>, Serializable {
+public class Library implements Iterable<Publication>, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234571L;
+    private Integer idLibrary;
+    private int idPublication;
     private final PublicationRepository publicationRepository;
 
     public Library() {
@@ -50,6 +55,26 @@ public abstract class Library implements Iterable<Publication>, Serializable {
 
     public void clear() {
         publicationRepository.clear();
+    }
+
+    public int getIdPublication() {
+        return idPublication;
+    }
+
+    public void setIdPublication(int idPublication) {
+        this.idPublication = idPublication;
+    }
+
+    public Integer getIdLibrary() {
+        return idLibrary;
+    }
+
+    public void setIdLibrary(Integer idLibrary) {
+        this.idLibrary = idLibrary;
+    }
+
+    public PublicationRepository getPublicationRepository() {
+        return publicationRepository;
     }
 
     @Override

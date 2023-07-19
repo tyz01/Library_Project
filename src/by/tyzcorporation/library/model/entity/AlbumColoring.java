@@ -1,8 +1,11 @@
 package by.tyzcorporation.library.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class AlbumColoring extends AlbumDecorator implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234567L;
     public AlbumColoring(Album album) {
         super(album);
     }

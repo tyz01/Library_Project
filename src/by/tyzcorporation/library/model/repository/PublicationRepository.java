@@ -25,10 +25,12 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
     private final DataWriter<Publication> dataWriter = new DataWriter<>();
     private Publication[] publications;
     private int size;
+
     public PublicationRepository(Publication[] publications) {
         this.publications = publications;
         this.size = publications.length;
     }
+
     public PublicationRepository() {
         publications = new Publication[10];
         size = 0;
@@ -85,6 +87,7 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
         }
         return null;
     }
+
     public List<Publication> findPublicationByType(String type) {
         Publication[] publications = readFromFile();
         List<Publication> filteredPublications = Arrays.stream(publications)
@@ -94,7 +97,7 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
     }
 
     public void getReadPublication(Publication publication) {
-        if(publication.isBorrow()){
+        if (publication.isBorrow()) {
             return;
         }
         int index = findPublicationIndex(publication);

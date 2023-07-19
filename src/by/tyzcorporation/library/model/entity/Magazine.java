@@ -1,14 +1,18 @@
 package by.tyzcorporation.library.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Magazine extends Publication implements Serializable {
+public class Magazine extends Publication implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234572L;
     private String category;
     private String genre;
 
-    public Magazine(String title, int pageCount, String category, String genre, boolean borrow, int countBorrowPublication) {
-        super(title, pageCount, borrow,countBorrowPublication);
+    public Magazine(){}
+    public Magazine(Integer idMagazine, String title, int pageCount, String category, String genre, boolean borrow, int countBorrowPublication) {
+        super(idMagazine, title, pageCount, borrow,countBorrowPublication);
         this.category = category;
         this.genre = genre;
     }

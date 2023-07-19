@@ -1,13 +1,17 @@
 package by.tyzcorporation.library.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class AlbumDecorator extends Publication implements Album, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1234568L;
     protected Album album;
 
     public AlbumDecorator(Album album) {
         this.album = album;
     }
+    public AlbumDecorator(){}
 
     @Override
     public void draw() {
