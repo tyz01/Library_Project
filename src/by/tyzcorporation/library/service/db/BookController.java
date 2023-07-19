@@ -5,7 +5,7 @@ import by.tyzcorporation.library.model.entity.Book;
 import java.sql.*;
 import java.util.List;
 
-public class BookController  {
+public class BookController {
     private final Connection connection;
 
     public BookController(Connection connection) {
@@ -15,6 +15,7 @@ public class BookController  {
     public List<Book> getAll() {
         return null;
     }
+
     public Book update(Book entity) {
         return null;
     }
@@ -22,9 +23,11 @@ public class BookController  {
     public Book getEntityById(Integer id) {
         return null;
     }
+
     public boolean delete(Integer id) {
         return false;
     }
+
     public boolean create(Book entity) {
         return false;
     }

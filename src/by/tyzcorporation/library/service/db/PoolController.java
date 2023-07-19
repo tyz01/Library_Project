@@ -11,11 +11,12 @@ public class PoolController {
         pool.initializePool();
 
         try {
-            DAOController daoController = new DAOController(pool);
+            DAOBookController daoBookController = new DAOBookController(pool);
 
             Book book = new Book("Die Spirit", 600, "Gogol", "fantasy",
                     false, 0);
-            daoController.insertIntoDatabase(book);
+
+            daoBookController.insertIntoDatabase(book);
 
         } catch (InterruptedException e) {
             e.printStackTrace();

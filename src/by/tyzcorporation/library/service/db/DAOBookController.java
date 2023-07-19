@@ -6,20 +6,21 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DAOController extends AbstractController<Book, Integer> {
+public class DAOBookController extends AbstractController<Book, Integer> {
     private final ConnectionPool connectionPool;
     private final Connection connection;
     private final BookController bookController;
     private final LibraryController libraryController;
-    PublicationController publicationController;
+    private final PublicationController publicationController;
 
-    public DAOController(ConnectionPool connectionPool) throws InterruptedException {
+    public DAOBookController(ConnectionPool connectionPool) throws InterruptedException {
         this.connectionPool = connectionPool;
         this.connection = connectionPool.getConnection();
         this.bookController = new BookController(connection);
         this.libraryController = new LibraryController(connection);
         this.publicationController = new PublicationController(connection);
     }
+
     @Override
     public List<Book> getAll() {
         return null;
@@ -45,8 +46,9 @@ public class DAOController extends AbstractController<Book, Integer> {
         return false;
     }
 
+    @Override
     public int insertIntoDatabase(Book book) throws SQLException {
-        int idPublication = 0;
+        int idPublication;
 
         try {
             connection.setAutoCommit(false);

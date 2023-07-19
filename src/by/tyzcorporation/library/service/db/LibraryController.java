@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class LibraryController {
     private final Connection connection;
 
-    public LibraryController(Connection connection) throws InterruptedException {
+    public LibraryController(Connection connection) {
         this.connection = connection;
     }
     public void insertIntoLibrary(int publicationId) throws SQLException {

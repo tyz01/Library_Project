@@ -12,7 +12,10 @@ public abstract class AbstractController<E, K> implements Controller<E, K> {
         this.connectionPool = connectionPool;
         this.connection = connectionPool.getConnection();
     }
-public AbstractController(){}
+
+    public AbstractController() {
+    }
+
     public void returnConnectionInPool() {
         connectionPool.releaseConnection(connection);
     }
