@@ -10,6 +10,7 @@ import by.tyzcorporation.library.model.entity.type.SortFieldType;
 import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
 import by.tyzcorporation.library.model.exception.technical.PublicationRepositoryException;
 import by.tyzcorporation.library.service.LibraryStatistics;
+import by.tyzcorporation.library.service.db.controller.BookController;
 import by.tyzcorporation.library.service.utility.file.DataReader;
 import by.tyzcorporation.library.service.utility.file.DataWriter;
 import by.tyzcorporation.library.service.utility.search.DataSearcher;
@@ -24,6 +25,7 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
     private final DataReader<Publication> dataReader = new DataReader<>();
     private final DataWriter<Publication> dataWriter = new DataWriter<>();
     private Publication[] publications;
+    BookController bookController;
     private int size;
 
     public PublicationRepository(Publication[] publications) {
@@ -166,27 +168,27 @@ public class PublicationRepository implements Iterable<Publication>, Serializabl
                 '}';
     }
 
-    private class PublicationIterator implements Iterator<Publication> {
-        private int currentIndex;
+private class PublicationIterator implements Iterator<Publication> {
+    private int currentIndex;
 
-        public PublicationIterator() {
-            currentIndex = 0;
-        }
+    public PublicationIterator() {
+        currentIndex = 0;
+    }
 
-        @Override
-        public boolean hasNext() {
-            return currentIndex < size;
-        }
+    @Override
+    public boolean hasNext() {
+        return currentIndex < size;
+    }
 
-        @Override
-        public Publication next() {
-            if (hasNext()) {
-                Publication publication = publications[currentIndex];
-                currentIndex++;
-                return publication;
-            } else {
-                throw new NoSuchElementException("No more publications in the repository.");
-            }
+    @Override
+    public Publication next() {
+        if (hasNext()) {
+            Publication publication = publications[currentIndex];
+            currentIndex++;
+            return publication;
+        } else {
+            throw new NoSuchElementException("No more publications in the repository.");
         }
     }
+}
 }

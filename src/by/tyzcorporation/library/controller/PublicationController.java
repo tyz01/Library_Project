@@ -2,6 +2,7 @@ package by.tyzcorporation.library.controller;
 
 import by.tyzcorporation.library.model.entity.Library;
 import by.tyzcorporation.library.model.entity.Publication;
+import by.tyzcorporation.library.service.db.controller.BookController;
 import by.tyzcorporation.library.service.utility.PublicationFactoryUI;
 import by.tyzcorporation.library.service.utility.file.DataWriter;
 
@@ -10,6 +11,7 @@ import java.util.List;
 public class PublicationController {
     private final Library library;
     private final DataWriter<Library> dataWriter;
+    BookController bookController;
 
     public PublicationController(Library library) {
         this.library = library;

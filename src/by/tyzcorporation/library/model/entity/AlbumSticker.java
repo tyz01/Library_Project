@@ -6,8 +6,8 @@ import java.io.Serializable;
 public class AlbumSticker extends AlbumDecorator implements Serializable {
     @Serial
     private static final long serialVersionUID = 12345679L;
-    public AlbumSticker(Album album) {
-        super(album);
+    public AlbumSticker(Album album, int id) {
+        super(album, id);
     }
     @Override
     public void draw() {

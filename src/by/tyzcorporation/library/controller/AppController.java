@@ -14,8 +14,8 @@ public class AppController {
     private final Library library;
 
     public AppController() {
-        DataWriter<Library> publicationDataWriter = new DataWriter<>();
-        publicationDataWriter.write(ContainerPublication.repositoryLibrary(), "library.txt");
+       // DataWriter<Library> publicationDataWriter = new DataWriter<>();
+       // publicationDataWriter.write(ContainerPublication.repositoryLibrary(), "library.txt");
 
         DataReader<Library> publicationRepositoryDataReader = new DataReader<>();
         library = publicationRepositoryDataReader.read("library.txt");

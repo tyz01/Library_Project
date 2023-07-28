@@ -1,19 +1,22 @@
-package by.tyzcorporation.library.service.db;
+package by.tyzcorporation.library.service.db.repository;
+
+import by.tyzcorporation.library.service.db.ConnectionPool;
+import by.tyzcorporation.library.service.db.Controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public abstract class AbstractController<E, K> implements Controller<E, K> {
+public abstract class AbstractRepository<E, K> implements Controller<E, K> {
     private ConnectionPool connectionPool;
     private Connection connection;
 
-    public AbstractController(ConnectionPool connectionPool) throws InterruptedException {
+    public AbstractRepository(ConnectionPool connectionPool) throws InterruptedException {
         this.connectionPool = connectionPool;
         this.connection = connectionPool.getConnection();
     }
 
-    public AbstractController() {
+    public AbstractRepository() {
     }
 
     public void returnConnectionInPool() {

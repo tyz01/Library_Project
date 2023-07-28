@@ -89,10 +89,10 @@ public class Publication implements Comparable<Publication>, Serializable {
     }
 
     public void setTitle(String title) {
-        if (title != null && !title.isEmpty()) {
+//        if (title != null && !title.isEmpty()) {
             this.title = title;
-        }
-        throw new IllegalArgumentException("Title cannot be null or empty.");
+//        }
+//        throw new IllegalArgumentException("Title cannot be null or empty.");
     }
 
     public String getTitle() {
