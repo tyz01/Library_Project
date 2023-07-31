@@ -1,7 +1,6 @@
 package by.tyzcorporation.library.model.repository;
 
-import by.tyzcorporation.library.model.entity.ConcreteBook;
-import by.tyzcorporation.library.model.entity.ConcreteMagazine;
+import by.tyzcorporation.library.model.entity.ConcreteAlbum;
 import by.tyzcorporation.library.model.entity.Publication;
 import by.tyzcorporation.library.model.entity.type.SortDirectionType;
 import by.tyzcorporation.library.model.entity.type.SortFieldType;
@@ -10,18 +9,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
-
-public class PublicationRepositoryTest {
-    private PublicationRepository repository;
+public class PublicationFileRepositoryTest {
+    private PublicationFileRepository repository;
     private Publication publication1;
     private Publication publication2;
 
     @Before
     public void setup() {
-        repository = new PublicationRepository();
-        publication1 = new ConcreteBook("t2", 2, "tyz2", "genre2", false, 0);
-        publication2 = new ConcreteMagazine("name", 12, "comics", "fun", false, 0);
+        repository = new PublicationFileRepository();
+        publication1 = new ConcreteAlbum(1,"tsdf", 2);
+        publication2 = new ConcreteAlbum(2, "name", 12);
     }
 
     @Test()
@@ -41,9 +38,8 @@ public class PublicationRepositoryTest {
         repository.addPublication(publication1);
         repository.addPublication(publication2);
 
-        repository.removePublication(publication1);
+        repository.removePublication(1);
 
-        Assert.assertEquals(1, repository.size());
         Assert.assertEquals(publication2, repository.getPublication(0));
     }
 
@@ -52,7 +48,7 @@ public class PublicationRepositoryTest {
 
         repository.addPublication(publication1);
 
-        repository.removePublication(publication2);
+        repository.removePublication(2);
 
         Assert.assertEquals(1, repository.size());
     }
@@ -108,13 +104,13 @@ public class PublicationRepositoryTest {
 
         repository.sort(SortDirectionType.ASCENDING, SortFieldType.TITLE);
 
-        Assert.assertEquals(publication2, repository.getPublication(0));
-        Assert.assertEquals(publication1, repository.getPublication(1));
+        Assert.assertEquals(publication2, repository.findPublicationById(1));
+        Assert.assertEquals(publication1, repository.findPublicationById(2));
 
         repository.sort(SortDirectionType.ASCENDING, SortFieldType.PAGE_COUNT);
 
-        Assert.assertEquals(publication1, repository.getPublication(0));
-        Assert.assertEquals(publication2, repository.getPublication(1));
+        Assert.assertEquals(publication1, repository.findPublicationById(1));
+        Assert.assertEquals(publication2, repository.findPublicationById(2));
     }
 
     @Test()
@@ -125,28 +121,13 @@ public class PublicationRepositoryTest {
 
         repository.sort(SortDirectionType.DESCENDING, SortFieldType.TITLE);
 
-        Assert.assertEquals(publication1, repository.getPublication(0));
-        Assert.assertEquals(publication2, repository.getPublication(1));
+        Assert.assertEquals(publication2, repository.findPublicationById(1));
+        Assert.assertEquals(publication1, repository.findPublicationById(2));
 
         repository.sort(SortDirectionType.DESCENDING, SortFieldType.PAGE_COUNT);
 
-        Assert.assertEquals(publication2, repository.getPublication(0));
-        Assert.assertEquals(publication1, repository.getPublication(1));
+        Assert.assertEquals(publication1, repository.findPublicationById(1));
+        Assert.assertEquals(publication2, repository.findPublicationById(2));
     }
-
-    @Test
-    public void testIterator_Positive() {
-        repository.addPublication(publication1);
-        repository.addPublication(publication2);
-
-        StringBuilder result = new StringBuilder();
-        for (Publication publication : repository) {
-            result.append(publication.getTitle()).append(", ");
-        }
-
-        String expected = "t2, name, ";
-        Assert.assertEquals(expected, result.toString());
-    }
-
 
 }

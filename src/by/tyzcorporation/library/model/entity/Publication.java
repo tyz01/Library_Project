@@ -6,7 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Publication implements Comparable<Publication>, Serializable {
+public class  Publication implements Comparable<Publication>, Serializable {
     @Serial
     private static final long serialVersionUID = 1234573L;
     private Integer idPublication;
@@ -14,20 +14,25 @@ public class Publication implements Comparable<Publication>, Serializable {
     private int pageCount;
     private boolean borrow;
     private int countBorrowPublication;
-    private int foreignId;
 
-    public Publication(Integer idPublication,
-                       String title,
-                       int pageCount, boolean borrow,
-                       int countBorrowPublication,
-                       int foreignId) {
+    public Publication(Integer idPublication, String title) {
+        this.idPublication = idPublication;
+        this.title = title;
+    }
+
+    public Publication(Integer idPublication, String title, int pageCount) {
         this.idPublication = idPublication;
         this.title = title;
         this.pageCount = pageCount;
+    }
+
+    public Publication(Integer idPublication, String title, boolean borrow, int countBorrowPublication) {
+        this.idPublication = idPublication;
+        this.title = title;
         this.borrow = borrow;
         this.countBorrowPublication = countBorrowPublication;
-        this.foreignId = foreignId;
     }
+
 
     public Publication() {
         this.idPublication = null;
@@ -45,16 +50,8 @@ public class Publication implements Comparable<Publication>, Serializable {
         this.countBorrowPublication = countBorrowPublication;
     }
 
-    public Publication(String title, int pageCount, boolean borrow, int countBorrowPublication) {
-        this.title = title;
-        this.pageCount = pageCount;
-        this.borrow = borrow;
-        this.countBorrowPublication = countBorrowPublication;
-    }
-
-    public Publication(String title, int pageCount) {
-        this.title = title;
-        this.pageCount = pageCount;
+    public Publication(Integer idPublication) {
+        this.idPublication = idPublication;
     }
 
     public int getCountBorrowPublication() {
@@ -133,7 +130,6 @@ public class Publication implements Comparable<Publication>, Serializable {
                 ", pageCount=" + pageCount +
                 ", borrow=" + borrow +
                 ", countBorrowPublication=" + countBorrowPublication +
-                ", publication=" + foreignId +
                 '}';
     }
 }

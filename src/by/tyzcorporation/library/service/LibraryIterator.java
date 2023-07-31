@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LibraryIterator implements Iterator<Publication> {
-    private List<Publication> publications;
+    private final List<Publication> publications;
     private int index;
 
     public LibraryIterator(List<Publication> publications) {

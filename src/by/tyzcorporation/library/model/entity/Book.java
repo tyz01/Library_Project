@@ -1,8 +1,11 @@
 package by.tyzcorporation.library.model.entity;
 
+import by.tyzcorporation.library.service.annotation.Entity;
+
 import java.io.Serial;
 import java.io.Serializable;
 
+@Entity
 public class Book extends Publication implements Cloneable, Serializable {
     @Serial
     private static final long serialVersionUID = 1234571L;
@@ -11,21 +14,12 @@ public class Book extends Publication implements Cloneable, Serializable {
 
     public Book() {}
 
-    public Book(Book other) {
-        this.author = other.author;
-        this.genre = other.genre;
-    }
-
     public Book(Integer idBook, String title, int pageCount, String author, String genre, boolean borrow, int countBorrowPublication) {
         super(idBook, title, pageCount, borrow, countBorrowPublication);
         this.author = author;
         this.genre = genre;
     }
-    public Book(String title, int pageCount, String author, String genre, boolean borrow, int countBorrowPublication) {
-        super(title, pageCount, borrow, countBorrowPublication);
-        this.author = author;
-        this.genre = genre;
-    }
+
     public String getAuthor() {
         return author;
     }
@@ -61,9 +55,11 @@ public class Book extends Publication implements Cloneable, Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Book: ")
+                .append("id = ").append(getIdPublication()).append(", ")
                 .append("title = ").append(getTitle()).append(", ")
                 .append("author = ").append(author).append(", ")
                 .append("genre = ").append(genre).append(", ")
+                .append("page count = ").append(getPageCount()).append(", ")
                 .append("borrow = ").append(isBorrow()).append(", ")
                 .append("count get publication = ").append(getCountBorrowPublication());
         return sb.toString();

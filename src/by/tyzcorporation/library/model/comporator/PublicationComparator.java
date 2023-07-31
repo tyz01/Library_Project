@@ -9,7 +9,6 @@ import java.util.Comparator;
 public class PublicationComparator implements Comparator<Publication> {
     private final SortDirectionType sortDirectionType;
     private final SortFieldType sortFieldType;
-
     public PublicationComparator(SortDirectionType sortDirectionType, SortFieldType sortFieldType) {
         this.sortDirectionType = sortDirectionType;
         this.sortFieldType = sortFieldType;

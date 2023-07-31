@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class AlbumRepository extends AbstractRepository<Album, Integer> {
-    private static final Logger logger = Logger.getLogger(AlbumRepository.class.getName());
     private final Connection connection;
 
     public AlbumRepository(Connection connection) {
@@ -31,7 +30,6 @@ public class AlbumRepository extends AbstractRepository<Album, Integer> {
                 String title = resultSet.getString("title");
                 int pageCount = resultSet.getInt("pageCount");
                 Album magazine = new ConcreteAlbum(title, pageCount);
-                logger.info("magazine" + magazine);
                 books.add(magazine);
             }
         } catch (SQLException e) {
@@ -57,12 +55,7 @@ public class AlbumRepository extends AbstractRepository<Album, Integer> {
     }
 
     @Override
-    public boolean create(Album entity) {
-        return false;
-    }
-
-    @Override
-    public int insertIntoDatabase(Album album, Integer publicationId) throws SQLException {
+    public int create(Album album, Integer publicationId) throws SQLException {
         String insertAlbumQuery = "INSERT INTO Album (title, pageCount, albumData, borrow, countBorrowAlbum, publicationId) VALUES (?, ?, ?, ?, ?, ?)";
         String insertDecoratorQuery = "INSERT INTO AlbumDecorator (decoratorType, albumId) VALUES (?, ?)";
 

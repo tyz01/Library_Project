@@ -1,18 +1,19 @@
 package by.tyzcorporation.library.model.entity;
 
+import by.tyzcorporation.library.service.annotation.Entity;
+
 import java.io.Serial;
 import java.io.Serializable;
 
+@Entity
 public class AlbumDecorator extends Publication implements Album, Serializable {
-    private int publicationId;
-    private int id;
     @Serial
     private static final long serialVersionUID = 1234568L;
     protected Album album;
 
-    public AlbumDecorator(Album album, int id) {
+    public AlbumDecorator(Album album, Integer id) {
+        super(id);
         this.album = album;
-        this.id = id;
     }
 
     public AlbumDecorator(Album album) {
@@ -20,11 +21,6 @@ public class AlbumDecorator extends Publication implements Album, Serializable {
     }
 
     public AlbumDecorator() {
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     @Override
@@ -40,16 +36,6 @@ public class AlbumDecorator extends Publication implements Album, Serializable {
     @Override
     public int getPageCount() {
         return album.getPageCount();
-    }
-
-    @Override
-    public int getPublicationId() {
-        return publicationId;
-    }
-
-    @Override
-    public void setPublicationId(Integer publicationId) {
-        this.publicationId = publicationId;
     }
 
     @Override

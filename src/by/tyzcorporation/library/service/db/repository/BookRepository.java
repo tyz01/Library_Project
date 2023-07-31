@@ -13,9 +13,35 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
         this.connection = connection;
     }
 
+    //    public List<Book> getAll() throws SQLException {
+//        List<Book> books = new ArrayList<>();
+//        String getAllBooksQuery = "SELECT * FROM Book";
+//
+//        try (PreparedStatement preparedStatement = connection.prepareStatement(getAllBooksQuery);
+//             ResultSet resultSet = preparedStatement.executeQuery()) {
+//
+//            while (resultSet.next()) {
+//                int bookId = resultSet.getInt("idBook");
+//                String title = resultSet.getString("title");
+//                int pageCount = resultSet.getInt("pageCount");
+//                String author = resultSet.getString("author");
+//                String genre = resultSet.getString("genre");
+//                boolean borrow = resultSet.getBoolean("borrow");
+//                int countBorrowPublication = resultSet.getInt("countBorrowPublication");
+//
+//                Book book = new Book(bookId, title, pageCount, author, genre, borrow, countBorrowPublication);
+//                books.add(book);
+//            }
+//        } catch (SQLException e) {
+//            throw new SQLException("Error while getting all books", e);
+//        }
+//
+//        return books;
+//    }
+    @Override
     public List<Book> getAll() throws SQLException {
         List<Book> books = new ArrayList<>();
-        String getAllBooksQuery = "SELECT * FROM Book";
+        String getAllBooksQuery = "SELECT idBook, title, pageCount, author, genre, borrow, countBorrowPublication FROM Book";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(getAllBooksQuery);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -40,23 +66,23 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
     }
 
     @Override
-    public Book update(Book entity) throws SQLException {
+    public Book update(Book book) throws SQLException {
         String updateBookQuery = "UPDATE Book " +
                 "SET title = ?, pageCount = ?, author = ?, genre = ?, borrow = ?, countBorrowPublication = ? " +
                 "WHERE idBook = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateBookQuery)) {
-            preparedStatement.setString(1, entity.getTitle());
-            preparedStatement.setInt(2, entity.getPageCount());
-            preparedStatement.setString(3, entity.getAuthor());
-            preparedStatement.setString(4, entity.getGenre());
-            preparedStatement.setBoolean(5, entity.isBorrow());
-            preparedStatement.setInt(6, entity.getCountBorrowPublication());
-          //  preparedStatement.setInt(7, entity.getBookId());
+            preparedStatement.setString(1, book.getTitle());
+            preparedStatement.setInt(2, book.getPageCount());
+            preparedStatement.setString(3, book.getAuthor());
+            preparedStatement.setString(4, book.getGenre());
+            preparedStatement.setBoolean(5, book.isBorrow());
+            preparedStatement.setInt(6, book.getCountBorrowPublication());
+            preparedStatement.setInt(7, book.getIdPublication());
 
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {
-                return entity;
+                return book;
             }
         } catch (SQLException e) {
             throw e;
@@ -64,7 +90,6 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
 
         return null;
     }
-
 
     @Override
     public Book getEntityById(Integer id) throws SQLException {
@@ -88,7 +113,6 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
         } catch (SQLException e) {
             throw e;
         }
-
         return null;
     }
 
@@ -106,31 +130,9 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
     }
 
     @Override
-    public boolean create(Book entity) throws SQLException {
-        String insertBookQuery = "INSERT INTO Book (title, pageCount, author, genre, borrow, countBorrowPublication) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertBookQuery)) {
-            preparedStatement.setString(1, entity.getTitle());
-            preparedStatement.setInt(2, entity.getPageCount());
-            preparedStatement.setString(3, entity.getAuthor());
-            preparedStatement.setString(4, entity.getGenre());
-            preparedStatement.setBoolean(5, entity.isBorrow());
-            preparedStatement.setInt(6, entity.getCountBorrowPublication());
-
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            throw e;
-        }
-    }
-
-    @Override
-    public int insertIntoDatabase(Book book, Integer publicationId) throws SQLException {
+    public int create(Book book, Integer publicationId) throws SQLException {
         String insertBookQuery = "INSERT INTO Book (title, pageCount, author, genre, borrow, countBorrowPublication, publicationId) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
-        PublicationRepository publicationController = new PublicationRepository(connection);
-        LibraryRepository libraryRepository = new LibraryRepository(connection);
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertBookQuery)) {
             preparedStatement.setString(1, book.getTitle());
             preparedStatement.setInt(2, book.getPageCount());
@@ -139,18 +141,14 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
             preparedStatement.setBoolean(5, book.isBorrow());
             preparedStatement.setInt(6, book.getCountBorrowPublication());
             preparedStatement.setInt(7, publicationId);
-
-            publicationController.insertIntoDatabase(book, publicationId);
-           // libraryController.insertIntoDatabase(publicationId);
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             connection.rollback();
             throw e;
         }
         return publicationId;
-
     }
+
 
 }
 

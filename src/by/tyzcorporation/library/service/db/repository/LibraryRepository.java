@@ -1,7 +1,6 @@
 package by.tyzcorporation.library.service.db.repository;
 
 import by.tyzcorporation.library.model.entity.Library;
-import by.tyzcorporation.library.service.db.repository.AbstractRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,16 +34,8 @@ public class LibraryRepository extends AbstractRepository<Library, Integer> {
     }
 
     @Override
-    public boolean create(Library entity) {
-        return false;
-    }
-
-    @Override
-    public int insertIntoDatabase(Library entity, Integer id) throws SQLException {
-        return 0;
-    }
-//    public void insertIntoLibrary(int publicationId) throws SQLException {
-//        String insertIntoLibrary = "INSERT INTO Library (publicationId) VALUES (?)";
+    public int create(Library entity, Integer id){
+        //        String insertIntoLibrary = "INSERT INTO Library (publicationId) VALUES (?)";
 //
 //        try (PreparedStatement preparedStatement = connection.prepareStatement(insertIntoLibrary)) {
 //            preparedStatement.setInt(1, publicationId);
@@ -54,4 +45,7 @@ public class LibraryRepository extends AbstractRepository<Library, Integer> {
 //            throw e;
 //        }
 //    }
+        return 0;
+    }
+
 }

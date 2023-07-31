@@ -1,7 +1,6 @@
 package by.tyzcorporation.library.service.db.repository;
 
 import by.tyzcorporation.library.model.entity.Magazine;
-import by.tyzcorporation.library.service.db.repository.AbstractRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,12 +61,7 @@ public class MagazineRepository extends AbstractRepository<Magazine, Integer> {
     }
 
     @Override
-    public boolean create(Magazine entity) {
-        return false;
-    }
-
-    @Override
-    public int insertIntoDatabase(Magazine magazine, Integer publicationId) throws SQLException {
+    public int create(Magazine magazine, Integer publicationId) throws SQLException {
         String insertBookQuery = "INSERT INTO Magazine (title, pageCount, author, genre, borrow, countBorrowPublication, publicationId) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 

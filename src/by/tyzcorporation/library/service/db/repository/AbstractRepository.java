@@ -26,7 +26,6 @@ public abstract class AbstractRepository<E, K> implements Controller<E, K> {
     public PreparedStatement getPrepareStatement(String sql) throws SQLException {
         return connection.prepareStatement(sql);
     }
-
     public void closePrepareStatement(PreparedStatement ps) {
         if (ps != null) {
             try {

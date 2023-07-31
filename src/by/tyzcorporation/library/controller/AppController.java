@@ -1,8 +1,8 @@
 package by.tyzcorporation.library.controller;
 
 
+import by.tyzcorporation.library.model.entity.ConcreteAlbum;
 import by.tyzcorporation.library.model.entity.Library;
-import by.tyzcorporation.library.model.repository.ContainerPublication;
 import by.tyzcorporation.library.service.utility.file.DataReader;
 import by.tyzcorporation.library.service.utility.file.DataWriter;
 
@@ -10,16 +10,22 @@ import java.util.Scanner;
 
 public class AppController {
     private int operation;
-    private final PublicationController publicationController;
-    private final Library library;
+    private PublicationFileController publicationFileController;
+    private Library library ;
 
     public AppController() {
-       // DataWriter<Library> publicationDataWriter = new DataWriter<>();
-       // publicationDataWriter.write(ContainerPublication.repositoryLibrary(), "library.txt");
+//        Library library1 = new Library();
+//        library1.addPublication(new ConcreteAlbum(1,"t2", 2));
+//         DataWriter<Library> publicationDataWriter = new DataWriter<>();
+//         publicationDataWriter.write(library1, "library.txt");
 
         DataReader<Library> publicationRepositoryDataReader = new DataReader<>();
         library = publicationRepositoryDataReader.read("library.txt");
-        publicationController = new PublicationController(library);
+        if (library.isEmpty()) {
+          library = new Library();
+        } else {
+            publicationFileController = new PublicationFileController(library);
+        }
     }
 
     public void start() {
@@ -32,10 +38,11 @@ public class AppController {
                     2: Get a publication
                     3: Return a publication
                     4: Show all publications
-                    5: Remove a publication
+                    5: Remove a publication by id
                     6: Add a publication
                     7: find Publication by title
                     8: find Publication by type
+                    9: find publication by id
                     0: Exit""");
 
             switchController(new Scanner(System.in).nextInt());
@@ -63,7 +70,7 @@ public class AppController {
                 try {
                     String type = getUserInputType();
                     if (type != null) {
-                        publicationController.getPublication(type);
+                        publicationFileController.getPublication(type);
                     } else {
                         System.out.println("Invalid publication type");
                     }
@@ -75,7 +82,7 @@ public class AppController {
                 try {
                     String type = getUserInputType();
                     if (type != null) {
-                        publicationController.returnPublication(type);
+                        publicationFileController.returnPublication(type);
                     } else {
                         System.out.println("Invalid publication type");
                     }
@@ -85,28 +92,25 @@ public class AppController {
             }
             case 4 -> {
                 try {
-                    publicationController.showAllPublication();
+                    publicationFileController.showAllPublication();
                 } catch (Exception e) {
                     System.out.println("An error occurred while showing all publications: " + e.getMessage());
                 }
             }
             case 5 -> {
                 try {
-                    String type = getUserInputType();
-                    if (type != null) {
-                        publicationController.removePublication(type);
-                    } else {
-                        System.out.println("Invalid publication type");
-                    }
+                    System.out.println("print id: ");
+                    int idPublication = new Scanner(System.in).nextInt();
+                    publicationFileController.removePublication(idPublication);
                 } catch (Exception e) {
-                    System.out.println("An error occurred while removing the publication: " + e.getMessage());
+                    System.out.println("An error delete publication: " + e.getMessage());
                 }
             }
             case 6 -> {
                 try {
                     String type = getUserInputType();
                     if (type != null) {
-                        publicationController.addPublication(type);
+                        publicationFileController.addPublication(type);
                     } else {
                         System.out.println("Invalid publication type");
                     }
@@ -118,7 +122,7 @@ public class AppController {
                 try {
                     String type = getUserInputType();
                     if (type != null) {
-                        System.out.println(publicationController.findPublicationByTitle(type));
+                        System.out.println(publicationFileController.findPublicationByTitle(type));
                     } else {
                         System.out.println("Invalid publication type");
                     }
@@ -131,12 +135,21 @@ public class AppController {
                     String type = getUserInputType();
                     System.out.println("book, album, or magazine");
                     if (type != null) {
-                        System.out.println(publicationController.findPublicationByType(type));
+                        System.out.println(publicationFileController.findPublicationByType(type));
                     } else {
                         System.out.println("Invalid publication type");
                     }
                 } catch (Exception e) {
                     System.out.println("An error publication: " + e.getMessage());
+                }
+            }
+            case 9 -> {
+                try {
+                    System.out.println("print id: ");
+                    int idPublication = new Scanner(System.in).nextInt();
+                    System.out.println(publicationFileController.findPublicationById(idPublication));
+                } catch (Exception e) {
+                    System.out.println("An error find publication: " + e.getMessage());
                 }
             }
         }

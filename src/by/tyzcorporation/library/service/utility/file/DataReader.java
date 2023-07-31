@@ -1,5 +1,7 @@
 package by.tyzcorporation.library.service.utility.file;
 
+import by.tyzcorporation.library.model.entity.Publication;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,4 +39,13 @@ public class DataReader<T> implements Serializable{
         }
         return result;
     }
+//    public Publication read(String fileName) {
+//        Publication result = null;
+//        try (ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)))) {
+//            result = (Publication) inputStream.readObject();
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 }

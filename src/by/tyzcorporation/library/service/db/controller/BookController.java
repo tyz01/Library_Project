@@ -19,6 +19,10 @@ public class BookController {
         bookService.getAll();
     }
 
+    public void removePublication(int idPublication) {
+        bookService.removePublication(idPublication);
+    }
+
     public Book getById(Integer idBook) {
         return bookService.getBookById(idBook);
     }

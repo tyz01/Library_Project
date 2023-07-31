@@ -1,7 +1,6 @@
 package by.tyzcorporation.library.service.db.repository;
 
 import by.tyzcorporation.library.model.entity.Publication;
-import by.tyzcorporation.library.service.db.repository.AbstractRepository;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -14,6 +13,7 @@ public class PublicationRepository extends AbstractRepository<Publication, Integ
         this.connection = connection;
     }
 
+    @Override
     public List<Publication> getAll() throws SQLException {
         String SELECT_ALL_PUBLICATION = "SELECT * FROM Publication";
         List<Publication> publications = new LinkedList<>();
@@ -37,16 +37,31 @@ public class PublicationRepository extends AbstractRepository<Publication, Integ
         return publications;
     }
 
+    @Override
     public Publication update(Publication entity) {
         return null;
     }
 
+    @Override
     public Publication getEntityById(Integer id) {
         return null;
     }
 
+    @Override
     public boolean delete(Integer id) {
-        return false;
+        String deleteBookQuery = "DELETE FROM Publication WHERE idPublication = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteBookQuery)) {
+            preparedStatement.setInt(1, id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            try {
+                throw e;
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     public boolean create(Publication entity) {
@@ -54,7 +69,7 @@ public class PublicationRepository extends AbstractRepository<Publication, Integ
     }
 
     @Override
-    public int insertIntoDatabase(Publication publication, Integer id) throws SQLException {
+    public int create(Publication publication, Integer id) throws SQLException {
         String insertPublicationQuery = "INSERT INTO Publication (title, pageCount, borrow, countBorrowPublication) " +
                 "VALUES (?, ?, ?, ?)";
 
@@ -67,8 +82,8 @@ public class PublicationRepository extends AbstractRepository<Publication, Integ
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
-               id = generatedKeys.getInt(1);
-               return id;
+                id = generatedKeys.getInt(1);
+                return id;
             }
         } catch (SQLException e) {
             connection.rollback();
@@ -78,5 +93,26 @@ public class PublicationRepository extends AbstractRepository<Publication, Integ
 
     }
 
+    public int insertIntoDatabase(Publication publication) throws SQLException {
+        String insertPublicationQuery = "INSERT INTO Publication (title, pageCount, borrow, countBorrowPublication) " +
+                "VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertPublicationQuery, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setString(1, publication.getTitle());
+            preparedStatement.setInt(2, publication.getPageCount());
+            preparedStatement.setBoolean(3, publication.isBorrow());
+            preparedStatement.setInt(4, publication.getCountBorrowPublication());
+            preparedStatement.executeUpdate();
+
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            throw e;
+        }
+        throw new SQLException("Failed to insert publication.");
+    }
 }
 

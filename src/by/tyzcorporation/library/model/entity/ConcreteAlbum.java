@@ -1,43 +1,25 @@
 package by.tyzcorporation.library.model.entity;
 
-import by.tyzcorporation.library.model.entity.Album;
+import by.tyzcorporation.library.service.annotation.Entity;
 
 import java.io.Serial;
 import java.io.Serializable;
 
+@Entity
 public class ConcreteAlbum extends Publication implements Album, Serializable {
     private String title;
     private int pageCount;
-    private int publicationId;
-    private Integer id;
 
     @Serial
     private static final long serialVersionUID = 123456789L;
-    public ConcreteAlbum(String title, int pageCount, int publicationId) {
-        this.title = title;
-        this.pageCount = pageCount;
-        this.publicationId = publicationId;
+    public ConcreteAlbum(Integer idAlbum, String title, int pageCount) {
+        super(idAlbum, title, pageCount);
+        System.out.println(idAlbum);
     }
 
-    public ConcreteAlbum(Integer id, String title, int pageCount, int publicationId) {
-        this.id = id;
-        this.title = title;
-        this.pageCount = pageCount;
-        this.publicationId = publicationId;
-    }
     public ConcreteAlbum( String title, int pageCount) {
         this.title = title;
         this.pageCount = pageCount;
-    }
-    public ConcreteAlbum(Integer id, String title, int pageCount) {
-        this.id = id;
-        this.title = title;
-        this.pageCount = pageCount;
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     @Override
@@ -55,23 +37,19 @@ public class ConcreteAlbum extends Publication implements Album, Serializable {
         return pageCount;
     }
 
-    @Override
-    public int getPublicationId() {
-        return publicationId;
-    }
+//    @Override
+//    public int getPublicationId() {
+//        return publicationId;
+//    }
 
-    @Override
-    public void setPublicationId(Integer publicationId) {
-        this.publicationId = publicationId;
-    }
+//    @Override
+//    public void setPublicationId(Integer publicationId) {
+//        this.publicationId = publicationId;
+//    }
 
     @Override
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @Override
@@ -81,6 +59,8 @@ public class ConcreteAlbum extends Publication implements Album, Serializable {
 
     @Override
     public String toString() {
-        return "Album: " + "title = " + getTitle() + ", page count = " + getPageCount() + ", publicationId = " + getPublicationId();
+        return "Album: " + "title = " + getTitle() +
+                ", page count = " + getPageCount() +
+                ", publicationId = " + getIdPublication();
     }
 }

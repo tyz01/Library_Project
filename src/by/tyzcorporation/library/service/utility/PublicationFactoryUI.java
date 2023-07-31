@@ -11,71 +11,62 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import static by.tyzcorporation.library.service.utility.db.DBUtility.findLastId;
+
 public class PublicationFactoryUI {
-
     public static Publication createPublication(String type) {
-
-        ConnectionPool pool = new ConnectionPool(5);
+        ConnectionPool pool = new ConnectionPool(1);
         pool.initializePool();
-        Connection connection = null;
-        try {
-            connection = pool.getConnection();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+
+        try (Connection connection = pool.getConnection()) {
+            switch (type) {
+                case "BOOK":
+                    return createBook(connection);
+                //   case "MAGAZINE" ->
+                //{
+                // System.out.print("Enter magazine title: ");
+                // title = scanner.nextLine();
+                //System.out.print("Enter magazine category: ");
+                //  String category = scanner.nextLine();
+                // System.out.print("Enter magazine genre: ");
+                // genre = scanner.nextLine();
+                // pageCount = getUserInputInt("Enter magazine page count: ");
+                //    return new Magazine(1, title, pageCount, category, genre, false, 0);
+                //  }
+                //case "ALBUM" -> {
+                //    System.out.print("Enter album title: ");
+                //   title = scanner.nextLine();
+                //   pageCount = getUserInputInt("Enter album page count: ");
+                //     return new ConcreteAlbum(title, pageCount, 0);
+                //    }
+                default:
+                    throw new IllegalArgumentException("Invalid publication type: " + type);
+            }
+        } catch (SQLException | InterruptedException e) {
+            throw new RuntimeException("Error while creating publication", e);
+        } finally {
+            pool.closeAllConnections();
         }
+    }
 
-        BookRepository bookRepository = new BookRepository(connection);
-        PublicationRepository publicationRepository = new PublicationRepository(connection);
-        BookService bookService = new BookService(bookRepository, publicationRepository);
-
-        BookController bookController = new BookController(bookService);
-
-
+    private static Book createBook(Connection connection) throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        Integer id = null;
-        String title;
-        String author;
-        String genre;
-        int pageCount;
-        switch (type) {
-            case "BOOK" -> {
-                System.out.print("Enter book title: ");
-                title = scanner.nextLine();
-                System.out.print("Enter book author: ");
-                author = scanner.nextLine();
-                System.out.print("Enter book genre: ");
-                genre = scanner.nextLine();
-                pageCount = getUserInputInt("Enter book page count: ");
-                Book book = new Book(id, title, pageCount, author, genre, false, 0);
+        int id = findLastId(connection) + 1;
+        System.out.println("id = " + id);
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter book author: ");
+        String author = scanner.nextLine();
+        System.out.print("Enter book genre: ");
+        String genre = scanner.nextLine();
+        int pageCount = getUserInputInt("Enter book page count: ");
 
-                bookController.createBook(book);
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                pool.closeAllConnections();
+        Book book = new Book(id, title, pageCount, author, genre, false, 0);
+        BookRepository bookRepository = new BookRepository(connection);
+        BookController bookController = new BookController(new BookService(bookRepository, new PublicationRepository(connection), connection));
+        bookController.createBook(book);
 
-                return book;
-            }
-            case "MAGAZINE" -> {
-                System.out.print("Enter magazine title: ");
-                title = scanner.nextLine();
-                System.out.print("Enter magazine category: ");
-                String category = scanner.nextLine();
-                System.out.print("Enter magazine genre: ");
-                genre = scanner.nextLine();
-                pageCount = getUserInputInt("Enter magazine page count: ");
-                return new Magazine(1, title, pageCount, category, genre, false, 0);
-            }
-            case "ALBUM" -> {
-                System.out.print("Enter album title: ");
-                title = scanner.nextLine();
-                pageCount = getUserInputInt("Enter album page count: ");
-                return new ConcreteAlbum(title, pageCount, 0);
-            }
-            default -> throw new IllegalArgumentException("Invalid publication type: " + type);
-        }
+        return book;
     }
 
     public static int getUserInputInt(String message) {

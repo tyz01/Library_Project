@@ -1,60 +1,70 @@
 package by.tyzcorporation.library.model.entity;
 
 import by.tyzcorporation.library.model.exception.logical.NoSuchPublicationException;
-import by.tyzcorporation.library.model.repository.PublicationRepository;
+import by.tyzcorporation.library.model.repository.PublicationFileRepository;
+import by.tyzcorporation.library.service.annotation.Entity;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
-
+@Entity
 public class Library implements Iterable<Publication>, Serializable {
     @Serial
     private static final long serialVersionUID = 1234571L;
     private Integer idLibrary;
     private int idPublication;
-    private final PublicationRepository publicationRepository;
+    private final PublicationFileRepository publicationFileRepository;
 
     public Library() {
-        publicationRepository = new PublicationRepository();
+        publicationFileRepository = new PublicationFileRepository();
     }
 
     public void addPublication(Publication publication) {
-        publicationRepository.addPublication(publication);
+        publicationFileRepository.addPublication(publication);
     }
 
-    public void removePublication(Publication publication) {
-        publicationRepository.removePublication(publication);
+    //    public void removePublication(Publication publication) {
+//        publicationRepository.removePublication(publication);
+//    }
+    public void removePublication(int idPublication) {
+        publicationFileRepository.removePublication(idPublication);
     }
 
     public Publication getPublication(int index) throws NoSuchPublicationException {
-        return publicationRepository.getPublication(index);
+        return publicationFileRepository.getPublication(index);
     }
-    public List<Publication> findPublicationByType(String type){
-        return publicationRepository.findPublicationByType(type);
+
+    public List<Publication> findPublicationByType(String type) {
+        return publicationFileRepository.findPublicationByType(type);
     }
+
     public void getReadPublication(Publication publication) {
-        publicationRepository.getReadPublication(publication);
+        publicationFileRepository.getReadPublication(publication);
+    }
+
+    public Publication findPublicationById(Integer idPublication) {
+        return publicationFileRepository.findPublicationById(idPublication);
     }
 
     public Publication findPublicationByTitle(String title) {
-        return publicationRepository.findPublicationByTitle(title);
+        return publicationFileRepository.findPublicationByTitle(title);
     }
 
     public void returnPublication(Publication publication) {
-        publicationRepository.backPublication(publication);
+        publicationFileRepository.backPublication(publication);
     }
 
     public boolean isEmpty() {
-        return publicationRepository.isEmpty();
+        return publicationFileRepository.isEmpty();
     }
 
     public int size() {
-        return publicationRepository.size();
+        return publicationFileRepository.size();
     }
 
     public void clear() {
-        publicationRepository.clear();
+        publicationFileRepository.clear();
     }
 
     public int getIdPublication() {
@@ -73,12 +83,12 @@ public class Library implements Iterable<Publication>, Serializable {
         this.idLibrary = idLibrary;
     }
 
-    public PublicationRepository getPublicationRepository() {
-        return publicationRepository;
+    public PublicationFileRepository getPublicationRepository() {
+        return publicationFileRepository;
     }
 
     @Override
     public Iterator<Publication> iterator() {
-        return publicationRepository.iterator();
+        return publicationFileRepository.iterator();
     }
 }

@@ -1,9 +1,11 @@
 package by.tyzcorporation.library.model.entity;
 
+import by.tyzcorporation.library.service.annotation.Entity;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
-
+@Entity
 public class Magazine extends Publication implements Serializable {
     @Serial
     private static final long serialVersionUID = 1234572L;
