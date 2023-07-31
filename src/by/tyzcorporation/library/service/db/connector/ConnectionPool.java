@@ -1,4 +1,4 @@
-package by.tyzcorporation.library.service.db;
+package by.tyzcorporation.library.service.db.connector;
 
 import by.tyzcorporation.library.service.db.connector.PosgresConnector;
 

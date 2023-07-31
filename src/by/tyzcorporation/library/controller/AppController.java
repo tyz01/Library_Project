@@ -1,7 +1,7 @@
 package by.tyzcorporation.library.controller;
 
 import by.tyzcorporation.library.model.entity.Library;
-import by.tyzcorporation.library.service.db.ConnectionPool;
+import by.tyzcorporation.library.service.db.connector.ConnectionPool;
 import by.tyzcorporation.library.service.db.bisneslogic.PublicationService;
 import by.tyzcorporation.library.service.db.controller.PublicationController;
 import by.tyzcorporation.library.service.db.repository.PublicationRepository;

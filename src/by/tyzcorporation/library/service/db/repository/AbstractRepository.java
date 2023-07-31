@@ -1,7 +1,7 @@
 package by.tyzcorporation.library.service.db.repository;
 
-import by.tyzcorporation.library.service.db.ConnectionPool;
-import by.tyzcorporation.library.service.db.Controller;
+import by.tyzcorporation.library.service.db.connector.ConnectionPool;
+import by.tyzcorporation.library.service.db.abstarction.Controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

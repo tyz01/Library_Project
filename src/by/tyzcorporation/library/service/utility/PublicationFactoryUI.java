@@ -1,7 +1,7 @@
 package by.tyzcorporation.library.service.utility;
 
 import by.tyzcorporation.library.model.entity.*;
-import by.tyzcorporation.library.service.db.ConnectionPool;
+import by.tyzcorporation.library.service.db.connector.ConnectionPool;
 import by.tyzcorporation.library.service.db.bisneslogic.AlbumService;
 import by.tyzcorporation.library.service.db.bisneslogic.BookService;
 import by.tyzcorporation.library.service.db.bisneslogic.MagazineService;

@@ -1,4 +1,4 @@
-package by.tyzcorporation.library.service.db;
+package by.tyzcorporation.library.service.db.abstarction;
 
 import java.sql.SQLException;
 import java.util.List;
