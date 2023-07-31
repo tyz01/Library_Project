@@ -1,11 +1,13 @@
 package by.tyzcorporation.library.service.db.repository;
 
 import by.tyzcorporation.library.model.entity.Publication;
+import by.tyzcorporation.library.service.annotation.Repository;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
+@Repository
 public class PublicationRepository extends AbstractRepository<Publication, Integer> {
     private final Connection connection;
 

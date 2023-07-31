@@ -31,18 +31,6 @@ public class PublicationFileController {
     }
 
     public void removePublication(Integer idPublication) {
-//        ConnectionPool pool = new ConnectionPool(5);
-//        pool.initializePool();
-//        Connection connection;
-//        try {
-//            connection = pool.getConnection();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
-//        PublicationRepository publicationRepository = new PublicationRepository(connection);
-//        PublicationService publicationService = new PublicationService(publicationRepository);
-//        PublicationController publicationController = new PublicationController(publicationService);
-        // publicationController.removePublication(idPublication);
         library.removePublication(idPublication);
         saveLibrary();
     }

@@ -1,6 +1,7 @@
 package by.tyzcorporation.library.service.db.repository;
 
 import by.tyzcorporation.library.model.entity.*;
+import by.tyzcorporation.library.service.annotation.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
+@Repository
 public class AlbumRepository extends AbstractRepository<Album, Integer> {
     private final Connection connection;
 

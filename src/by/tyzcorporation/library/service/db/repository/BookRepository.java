@@ -1,43 +1,20 @@
 package by.tyzcorporation.library.service.db.repository;
 
 import by.tyzcorporation.library.model.entity.Book;
+import by.tyzcorporation.library.model.exception.technical.IncorrectSQLException;
+import by.tyzcorporation.library.service.annotation.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class BookRepository extends AbstractRepository<Book, Integer> {
     private final Connection connection;
 
     public BookRepository(Connection connection) {
         this.connection = connection;
     }
-
-    //    public List<Book> getAll() throws SQLException {
-//        List<Book> books = new ArrayList<>();
-//        String getAllBooksQuery = "SELECT * FROM Book";
-//
-//        try (PreparedStatement preparedStatement = connection.prepareStatement(getAllBooksQuery);
-//             ResultSet resultSet = preparedStatement.executeQuery()) {
-//
-//            while (resultSet.next()) {
-//                int bookId = resultSet.getInt("idBook");
-//                String title = resultSet.getString("title");
-//                int pageCount = resultSet.getInt("pageCount");
-//                String author = resultSet.getString("author");
-//                String genre = resultSet.getString("genre");
-//                boolean borrow = resultSet.getBoolean("borrow");
-//                int countBorrowPublication = resultSet.getInt("countBorrowPublication");
-//
-//                Book book = new Book(bookId, title, pageCount, author, genre, borrow, countBorrowPublication);
-//                books.add(book);
-//            }
-//        } catch (SQLException e) {
-//            throw new SQLException("Error while getting all books", e);
-//        }
-//
-//        return books;
-//    }
     @Override
     public List<Book> getAll() throws SQLException {
         List<Book> books = new ArrayList<>();
@@ -88,7 +65,7 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
             throw e;
         }
 
-        return null;
+        throw new IncorrectSQLException("update failed");
     }
 
     @Override
@@ -113,7 +90,7 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
         } catch (SQLException e) {
             throw e;
         }
-        return null;
+        throw new IncorrectSQLException("get book failed");
     }
 
     @Override
@@ -148,8 +125,6 @@ public class BookRepository extends AbstractRepository<Book, Integer> {
         }
         return publicationId;
     }
-
-
 }
 
 

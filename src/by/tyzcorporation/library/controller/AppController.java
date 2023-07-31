@@ -1,17 +1,44 @@
 package by.tyzcorporation.library.controller;
 
-
-import by.tyzcorporation.library.model.entity.ConcreteAlbum;
 import by.tyzcorporation.library.model.entity.Library;
+import by.tyzcorporation.library.service.db.ConnectionPool;
+import by.tyzcorporation.library.service.db.bisneslogic.AlbumService;
+import by.tyzcorporation.library.service.db.bisneslogic.BookService;
+import by.tyzcorporation.library.service.db.bisneslogic.MagazineService;
+import by.tyzcorporation.library.service.db.bisneslogic.PublicationService;
+import by.tyzcorporation.library.service.db.controller.AlbumController;
+import by.tyzcorporation.library.service.db.controller.BookController;
+import by.tyzcorporation.library.service.db.controller.MagazineController;
+import by.tyzcorporation.library.service.db.controller.PublicationController;
+import by.tyzcorporation.library.service.db.repository.AlbumRepository;
+import by.tyzcorporation.library.service.db.repository.BookRepository;
+import by.tyzcorporation.library.service.db.repository.MagazineRepository;
+import by.tyzcorporation.library.service.db.repository.PublicationRepository;
 import by.tyzcorporation.library.service.utility.file.DataReader;
-import by.tyzcorporation.library.service.utility.file.DataWriter;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class AppController {
     private int operation;
     private PublicationFileController publicationFileController;
-    private Library library ;
+    private final PublicationController publicationController;
+
+
+    {
+        ConnectionPool pool = new ConnectionPool(5);
+        pool.initializePool();
+        Connection connection;
+        try {
+            connection = pool.getConnection();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        PublicationRepository publicationRepository = new PublicationRepository(connection);
+        publicationController = new PublicationController(new PublicationService(publicationRepository));
+
+    }
 
     public AppController() {
 //        Library library1 = new Library();
@@ -20,9 +47,9 @@ public class AppController {
 //         publicationDataWriter.write(library1, "library.txt");
 
         DataReader<Library> publicationRepositoryDataReader = new DataReader<>();
-        library = publicationRepositoryDataReader.read("library.txt");
+        Library library = publicationRepositoryDataReader.read("library.txt");
         if (library.isEmpty()) {
-          library = new Library();
+            library = new Library();
         } else {
             publicationFileController = new PublicationFileController(library);
         }
@@ -93,6 +120,7 @@ public class AppController {
             case 4 -> {
                 try {
                     publicationFileController.showAllPublication();
+                    publicationController.getAll();
                 } catch (Exception e) {
                     System.out.println("An error occurred while showing all publications: " + e.getMessage());
                 }
@@ -102,6 +130,7 @@ public class AppController {
                     System.out.println("print id: ");
                     int idPublication = new Scanner(System.in).nextInt();
                     publicationFileController.removePublication(idPublication);
+                    publicationController.removePublication(idPublication);
                 } catch (Exception e) {
                     System.out.println("An error delete publication: " + e.getMessage());
                 }
@@ -148,6 +177,7 @@ public class AppController {
                     System.out.println("print id: ");
                     int idPublication = new Scanner(System.in).nextInt();
                     System.out.println(publicationFileController.findPublicationById(idPublication));
+                    System.out.println(publicationController.getById(idPublication));
                 } catch (Exception e) {
                     System.out.println("An error find publication: " + e.getMessage());
                 }

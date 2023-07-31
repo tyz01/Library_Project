@@ -24,9 +24,6 @@ public class Library implements Iterable<Publication>, Serializable {
         publicationFileRepository.addPublication(publication);
     }
 
-    //    public void removePublication(Publication publication) {
-//        publicationRepository.removePublication(publication);
-//    }
     public void removePublication(int idPublication) {
         publicationFileRepository.removePublication(idPublication);
     }

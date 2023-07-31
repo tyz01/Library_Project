@@ -14,7 +14,6 @@ public class ConcreteAlbum extends Publication implements Album, Serializable {
     private static final long serialVersionUID = 123456789L;
     public ConcreteAlbum(Integer idAlbum, String title, int pageCount) {
         super(idAlbum, title, pageCount);
-        System.out.println(idAlbum);
     }
 
     public ConcreteAlbum( String title, int pageCount) {
@@ -36,16 +35,6 @@ public class ConcreteAlbum extends Publication implements Album, Serializable {
     public int getPageCount() {
         return pageCount;
     }
-
-//    @Override
-//    public int getPublicationId() {
-//        return publicationId;
-//    }
-
-//    @Override
-//    public void setPublicationId(Integer publicationId) {
-//        this.publicationId = publicationId;
-//    }
 
     @Override
     public void setTitle(String title) {

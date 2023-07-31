@@ -155,12 +155,10 @@ public class PublicationFileRepository implements Iterable<Publication>, Seriali
         Comparator<Publication> comparator = new PublicationComparator(sortDirectionType, sortFieldType);
         Arrays.sort(publications, 0, size, comparator);
     }
-
     public Publication[] readFromFile() {
         DataReader<Publication[]> publicationRepositoryDataReader = new DataReader<>();
         return publicationRepositoryDataReader.read("library.txt");
     }
-
     @Override
     public Iterator<Publication> iterator() {
         return new PublicationIterator();

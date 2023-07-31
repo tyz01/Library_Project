@@ -10,33 +10,23 @@ import java.util.List;
 
 public class BookService {
     private final BookRepository bookRepository;
-    private final PublicationRepository publicationRepository;
-    Connection connection;
 
-    public BookService(BookRepository bookRepository, PublicationRepository publicationRepository, Connection connection) {
+
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.publicationRepository = publicationRepository;
-        this.connection = connection;
+
     }
 
-//    public void createBook(Book book) {
-//        try {
-//            int publicationId = publicationRepository.insertIntoDatabase(book, book.getIdPublication());
-//            bookRepository.insertIntoDatabase(book, publicationId);
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Error while creating book", e);
-//        }
-//    }
-    public void createBook(Book book) {
+    public void createBook(Book book, Connection connection) {
         try {
             PublicationRepository publicationRepository = new PublicationRepository(connection);
             int publicationId = publicationRepository.insertIntoDatabase(book);
-            // libraryController.insertIntoDatabase(publicationId);
             bookRepository.create(book, publicationId);
         } catch (SQLException e) {
             throw new RuntimeException("Error while creating book", e);
         }
     }
+
     public void getAll() {
         try {
             List<Book> books = bookRepository.getAll();
@@ -47,14 +37,16 @@ public class BookService {
             throw new RuntimeException("Error while getting all books", e);
         }
     }
-    public Book getBookById(Integer idBook){
+
+    public Book getBookById(Integer idBook) {
         try {
             return bookRepository.getEntityById(idBook);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public void removePublication(int idPublication) {
+
+    public void removeBook(int idPublication) {
         try {
             bookRepository.delete(idPublication);
         } catch (SQLException e) {
