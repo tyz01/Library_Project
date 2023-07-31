@@ -2,17 +2,8 @@ package by.tyzcorporation.library.controller;
 
 import by.tyzcorporation.library.model.entity.Library;
 import by.tyzcorporation.library.service.db.ConnectionPool;
-import by.tyzcorporation.library.service.db.bisneslogic.AlbumService;
-import by.tyzcorporation.library.service.db.bisneslogic.BookService;
-import by.tyzcorporation.library.service.db.bisneslogic.MagazineService;
 import by.tyzcorporation.library.service.db.bisneslogic.PublicationService;
-import by.tyzcorporation.library.service.db.controller.AlbumController;
-import by.tyzcorporation.library.service.db.controller.BookController;
-import by.tyzcorporation.library.service.db.controller.MagazineController;
 import by.tyzcorporation.library.service.db.controller.PublicationController;
-import by.tyzcorporation.library.service.db.repository.AlbumRepository;
-import by.tyzcorporation.library.service.db.repository.BookRepository;
-import by.tyzcorporation.library.service.db.repository.MagazineRepository;
 import by.tyzcorporation.library.service.db.repository.PublicationRepository;
 import by.tyzcorporation.library.service.utility.file.DataReader;
 

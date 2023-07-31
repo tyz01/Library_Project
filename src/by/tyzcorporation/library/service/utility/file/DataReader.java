@@ -39,13 +39,4 @@ public class DataReader<T> implements Serializable{
         }
         return result;
     }
-//    public Publication read(String fileName) {
-//        Publication result = null;
-//        try (ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(new FileInputStream(fileName)))) {
-//            result = (Publication) inputStream.readObject();
-//        } catch (IOException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
 }
